@@ -8,7 +8,6 @@ const expect = chai.expect
 describe('when creating a destination', function () {
   it('rejects destinations with no geolocation', function (done) {
     const persistenceMechanism = {
-      generateId: () => 'my-guid',
       writeToStream: (stream, event) => {}
     }
 
@@ -26,7 +25,6 @@ describe('when creating a destination', function () {
 
   it('rejects destinations with no name', function (done) {
     const persistenceMechanism = {
-      generateId: () => 'my-guid',
       writeToStream: (stream, event) => {}
     }
 

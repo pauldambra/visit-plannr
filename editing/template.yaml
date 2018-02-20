@@ -5,13 +5,19 @@ Description: |
   The RESTful editing service
 
 Resources:
-  ExampleFunction:
+  EventsTable:
+    Type: "AWS::Serverless::SimpleTable"
+  CreateDestinationFunction:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs6.10
       Handler: create.handler
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref EventsTable
       Events:
-        ListCustomers:
+        CreateDestination:
           Type: Api
           Properties:
             Path: /destination
