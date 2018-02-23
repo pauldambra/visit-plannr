@@ -1,4 +1,4 @@
-const destinations = require('../destinations')
+const destinations = require('../destinations/destinations')
 const chai = require('chai')
 const expect = chai.expect
 

@@ -1,4 +1,4 @@
-const streamRepoFactory = require('../stream-repo-factory.js')
+const streamRepoFactory = require('../destinations/make-stream-repository')
 const expect = require('chai').expect
 
 describe('the repo', function () {

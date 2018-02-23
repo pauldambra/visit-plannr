@@ -1,6 +1,6 @@
-const destinations = require('../destinations')
-const NoGeoLocationProvided = require('../NoGeoLocationProvided')
-const NoNameProvided = require('../NoNameProvided')
+const destinations = require('../destinations/destinations')
+const NoGeoLocationProvided = require('../destinations/NoGeoLocationProvided')
+const NoNameProvided = require('../destinations/NoNameProvided')
 
 const chai = require('chai')
 const expect = chai.expect

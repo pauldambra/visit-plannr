@@ -1,6 +1,6 @@
 const chai = require('chai')
 const expect = chai.expect
-const mapper = require('../mapper')
+const mapper = require('../destinations/mapper')
 
 const exampleEvent = {
   httpMethod: 'POST',
