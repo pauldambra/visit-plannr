@@ -1,4 +1,4 @@
-const destinations = require('../destinations/destinations')
+const destinations = require('../destinations/commandHandler')
 const NoGeoLocationProvided = require('../destinations/NoGeoLocationProvided')
 const NoNameProvided = require('../destinations/NoNameProvided')
 

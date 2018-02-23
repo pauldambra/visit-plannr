@@ -1,10 +1,11 @@
-const destinations = require('../destinations/destinations')
+const commandHandler = require('../destinations/commandHandler')
 const chai = require('chai')
 const expect = chai.expect
 
 const assertOnSuccess = (done, actualStreamName, actualEvent) => {
   return () => {
     expect(actualEvent).to.deep.equal({
+      correlationId: 'a-generated-guid',
       type: 'destinationCreated',
       name: 'the destination name',
       geolocation: {something: 'provided'}
@@ -16,16 +17,24 @@ const assertOnSuccess = (done, actualStreamName, actualEvent) => {
 
 describe('when creating a destination', function () {
   it('writes an event to a new stream', function (done) {
-    const persistenceMechanism = {
-      writeToStream: (stream, event, onSuccess, onError) => {
-        onSuccess(stream, event)()
+    const fakeStreamRepo = {
+      writeToStream: (opts) => {
+        opts.onSuccess(opts.streamName, opts.event)()
       }
     }
 
-    destinations.apply({
-      command: {name: 'the destination name', geolocation: {something: 'provided'}},
-      onSuccess: (stream, event) => assertOnSuccess(done, stream, event),
-      onError: () => done('oh! oh! should not get here')
-    }, persistenceMechanism)
+    const guid = {
+      generate: () => 'a-generated-guid'
+    }
+
+    commandHandler.apply(
+      {
+        command: {name: 'the destination name', geolocation: {something: 'provided'}},
+        onSuccess: (stream, event) => assertOnSuccess(done, stream, event),
+        onError: () => done('oh! oh! should not get here'),
+        streamRepository: fakeStreamRepo,
+        guidGenerator: guid
+      }
+    )
   })
 })
