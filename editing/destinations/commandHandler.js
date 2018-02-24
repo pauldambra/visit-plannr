@@ -9,8 +9,23 @@ const eventFrom = command => {
   }
 }
 
-const processChain = (ev, opts) => {
-  validateGeoLocation(ev, opts, validateName)
+class CommandPipeline {
+  constructor () {
+    this.functions = []
+  }
+
+  use (fn) {
+    this.functions.push(fn)
+    return this
+  }
+
+  run (ev, opts) {
+    for (var i = 0; i < this.functions.length; i++) {
+      const current = this.functions[i]
+      const shouldContinue = current(ev, opts)
+      if (!shouldContinue) break
+    }
+  }
 }
 
 const writeToStream = (ev, opts) => {
@@ -26,9 +41,11 @@ const writeToStream = (ev, opts) => {
     onError: opts.onError,
     guidGenerator: opts.guidGenerator
   })
+
+  return true
 }
 
-const validateName = (ev, opts, next) => {
+const validateName = (ev, opts) => {
   if (!ev.name) {
     const err = new NoNameProvided(
       'destinations must include a name.',
@@ -38,11 +55,12 @@ const validateName = (ev, opts, next) => {
       }
     )
     opts.onError(err)
+    return false
   }
-  next(ev, opts)
+  return true
 }
 
-const validateGeoLocation = (ev, opts, next) => {
+const validateGeoLocation = (ev, opts) => {
   if (!ev.geolocation) {
     const err = new NoGeoLocationProvided(
       'destinations must include a location.',
@@ -52,14 +70,19 @@ const validateGeoLocation = (ev, opts, next) => {
       }
     )
     opts.onError(err)
+    return false
   }
-  next(ev, opts, writeToStream)
+  return true
 }
 
 const apply = (opts) => {
   const ev = eventFrom(opts.command)
 
-  processChain(ev, opts)
+  new CommandPipeline()
+    .use(validateGeoLocation)
+    .use(validateName)
+    .use(writeToStream)
+    .run(ev, opts)
 }
 
 module.exports = {
