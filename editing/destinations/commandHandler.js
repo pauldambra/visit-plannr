@@ -9,33 +9,11 @@ const eventFrom = command => {
   }
 }
 
-const apply = (opts) => {
-  const ev = eventFrom(opts.command)
+const processChain = (ev, opts) => {
+  validateGeoLocation(ev, opts, validateName)
+}
 
-  if (!ev.geolocation) {
-    const err = new NoGeoLocationProvided(
-      'destinations must include a location.',
-      {
-        command: opts.command,
-        event: ev
-      }
-    )
-    opts.onError(err)
-    return
-  }
-
-  if (!ev.name) {
-    const err = new NoNameProvided(
-      'destinations must include a name.',
-      {
-        command: opts.command,
-        event: ev
-      }
-    )
-    opts.onError(err)
-    return
-  }
-
+const writeToStream = (ev, opts) => {
   const correlationId = opts.guidGenerator.generate()
 
   const streamName = `destination-${correlationId}`
@@ -48,6 +26,40 @@ const apply = (opts) => {
     onError: opts.onError,
     guidGenerator: opts.guidGenerator
   })
+}
+
+const validateName = (ev, opts, next) => {
+  if (!ev.name) {
+    const err = new NoNameProvided(
+      'destinations must include a name.',
+      {
+        command: opts.command,
+        event: ev
+      }
+    )
+    opts.onError(err)
+  }
+  next(ev, opts)
+}
+
+const validateGeoLocation = (ev, opts, next) => {
+  if (!ev.geolocation) {
+    const err = new NoGeoLocationProvided(
+      'destinations must include a location.',
+      {
+        command: opts.command,
+        event: ev
+      }
+    )
+    opts.onError(err)
+  }
+  next(ev, opts, writeToStream)
+}
+
+const apply = (opts) => {
+  const ev = eventFrom(opts.command)
+
+  processChain(ev, opts)
 }
 
 module.exports = {

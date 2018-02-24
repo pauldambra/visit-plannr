@@ -5,7 +5,6 @@ module.exports = {
   for: dynamoDbClient => {
     return {
       writeToStream: (opts) => {
-        console.log(dynamoDbClient)
         var params = {
           TableName: tableName,
           Item: {
