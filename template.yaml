@@ -21,12 +21,14 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
   CreateDestinationFunction:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs6.10
       Handler: proposeDestination.handler
-      Timeout: 300
+      Timeout: 10
       Policies: AmazonDynamoDBFullAccess
       Environment:
         Variables:
@@ -37,3 +39,20 @@ Resources:
           Properties:
             Path: /destination
             Method: POST
+  ValidateGeolocationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs6.10
+      Handler: validateGeolocation.handler
+      Timeout: 10
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          EVENTS_TABLE: !Ref EventsTable
+      Events:
+        DestinationProposed:
+          Type: DynamoDB
+          Properties:
+            StartingPosition: LATEST
+            BatchSize: 1
+            Stream: !GetAtt EventsTable.StreamArn

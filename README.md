@@ -31,4 +31,5 @@ Let's assume API Gateway and lambda and see what the what
 
   `aws s3 mb s3://visitplannr-editor-package`
   `sam package --template-file template.yaml --s3-bucket visitplannr-editor-package --output-template-file packaged.yaml`
+  `sam deploy --template-file ./packaged.yaml --stack-name visitplannr-editor --capabilities CAPABILITY_IAM`
   
