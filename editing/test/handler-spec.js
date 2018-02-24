@@ -26,7 +26,7 @@ const exampleEvent = {
 
 describe('the editing api mapper', function () {
   it('can convert a create command out of an HTTP post', function () {
-    const command = mapper.from(exampleEvent)
+    const command = mapper.from(exampleEvent, 'a command type')
     expect(command).to.deep.equal({
       name: 'destination',
       geolocation: {
@@ -34,7 +34,7 @@ describe('the editing api mapper', function () {
         'lat': 0.0,
         'long': 0.0
       },
-      type: 'createDestination'
+      type: 'a command type'
     })
   })
 })

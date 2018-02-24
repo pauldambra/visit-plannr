@@ -6,7 +6,7 @@ const assertOnSuccess = (done, actualStreamName, actualEvent) => {
   return () => {
     expect(actualEvent).to.deep.equal({
       correlationId: 'a-generated-guid',
-      type: 'destinationCreated',
+      type: 'the desired event type',
       name: 'the destination name',
       geolocation: {something: 'provided'}
     })
@@ -15,7 +15,7 @@ const assertOnSuccess = (done, actualStreamName, actualEvent) => {
   }
 }
 
-describe('when creating a destination', function () {
+describe('when proposing a destination', function () {
   it('writes an event to a new stream', function (done) {
     const fakeStreamRepo = {
       writeToStream: (opts) => {
@@ -30,6 +30,7 @@ describe('when creating a destination', function () {
     commandHandler.apply(
       {
         command: {name: 'the destination name', geolocation: {something: 'provided'}},
+        type: 'the desired event type',
         onSuccess: (stream, event) => assertOnSuccess(done, stream, event),
         onError: () => done('oh! oh! should not get here'),
         streamRepository: fakeStreamRepo,

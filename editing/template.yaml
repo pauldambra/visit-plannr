@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs6.10
-      Handler: create.handler
+      Handler: proposeDestination.handler
       Timeout: 300
       Policies: AmazonDynamoDBFullAccess
       Environment:

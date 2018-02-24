@@ -1,12 +1,12 @@
 
-const from = (apiEvent) => {
+const from = (apiEvent, type) => {
   const dest = JSON.parse(apiEvent.body)
   const parsedCommand = {
     name: dest.name,
     geolocation: dest.geolocation,
-    type: 'createDestination'
+    type
   }
-  console.log(`received create destination command: ${JSON.stringify(parsedCommand)}`)
+  console.log(`received ${type} command: ${JSON.stringify(parsedCommand)}`)
   return parsedCommand
 }
 

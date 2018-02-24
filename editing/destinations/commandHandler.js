@@ -1,11 +1,11 @@
 const NoGeoLocationProvided = require('./NoGeoLocationProvided')
 const NoNameProvided = require('./NoNameProvided')
 
-const eventFrom = command => {
+const eventFrom = (command, eventType) => {
   return {
     name: command.name,
     geolocation: command.geolocation,
-    type: 'destinationCreated'
+    type: eventType
   }
 }
 
@@ -76,7 +76,7 @@ const validateGeoLocation = (ev, opts) => {
 }
 
 const apply = (opts) => {
-  const ev = eventFrom(opts.command)
+  const ev = eventFrom(opts.command, opts.type)
 
   new CommandPipeline()
     .use(validateGeoLocation)

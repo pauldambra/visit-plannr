@@ -5,7 +5,7 @@ const NoNameProvided = require('../destinations/NoNameProvided')
 const chai = require('chai')
 const expect = chai.expect
 
-describe('when creating a destination', function () {
+describe('when proposing a destination', function () {
   it('rejects destinations with no geolocation', function (done) {
     const persistenceMechanism = {
       writeToStream: (stream, event) => {}
