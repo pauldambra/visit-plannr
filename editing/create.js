@@ -1,7 +1,7 @@
 
 const mapper = require('./destinations/mapper')
 const commandHandler = require('./destinations/commandHandler')
-const guid = require('../../GUID')
+const guid = require('./GUID')
 
 let streamRepo
 const dynamoDbClient = require('./destinations/dynamoDbClient')
