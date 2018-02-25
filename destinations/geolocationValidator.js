@@ -1,19 +1,36 @@
 const InvalidGeolocationProvided = require('./InvalidGeolocationProvided')
 
-const isNumeric = n =>
-  !Number.isNaN(parseFloat(n)) && Number.isFinite(n)
+const strictlyParseFloat = n => {
+  if (/^(-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(n)) {
+    return Number(n)
+  }
+  return NaN
+}
 
-const isCoordinate = geolocation =>
-  Object.keys(geolocation).length === 2 &&
-  isNumeric(geolocation.latitude) &&
-  isNumeric(geolocation.longitude)
+const isNumeric = n =>
+  !Number.isNaN(strictlyParseFloat(n)) && Number.isFinite(n)
 
 module.exports = {
-  tryValidate: event => new Promise((resolve, reject) => {
-    if (isCoordinate(event.geolocation)) {
-      resolve(event)
+  tryValidate: dynamoDbEvent => new Promise((resolve, reject) => {
+    const coordinateValidation = {
+      hasGeolocation: dynamoDbEvent.event.hasOwnProperty('geolocation'),
+      geolocationHasTwoKeys: Object.keys(dynamoDbEvent.event.geolocation).length === 2,
+      latitudeIsNumeric: isNumeric(strictlyParseFloat(dynamoDbEvent.event.geolocation.latitude)),
+      longitudeIsNumeric: isNumeric(strictlyParseFloat(dynamoDbEvent.event.geolocation.longitude))
+    }
+
+    const isCoordinate =
+      coordinateValidation.hasGeolocation &&
+      coordinateValidation.geolocationHasTwoKeys &&
+      coordinateValidation.latitudeIsNumeric &&
+      coordinateValidation.longitudeIsNumeric
+
+    if (isCoordinate) {
+      resolve(dynamoDbEvent.event)
     } else {
-      reject(new InvalidGeolocationProvided(`${JSON.stringify(event.geolocation)} is not a geolocation`))
+      reject(new InvalidGeolocationProvided(
+        `${JSON.stringify(dynamoDbEvent.event)} does not have a valid geolocation. Found: ${JSON.stringify(coordinateValidation)}`
+      ))
     }
   })
 }

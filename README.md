@@ -8,9 +8,9 @@ The minimum for a destination is a geolocation and a name
 
 Let's assume API Gateway and lambda and see what the what
 
-# Needed
+# Needed?
 
- a docker network 
+ a docker network
 
  `docker network create lambda-local`
 
@@ -26,10 +26,11 @@ Let's assume API Gateway and lambda and see what the what
   * `sudo easy_install pip`
   * `pip install awscli --upgrade --user`
 
+# TODO
 
-  # package
-
-  `aws s3 mb s3://visitplannr-editor-package`
-  `sam package --template-file template.yaml --s3-bucket visitplannr-editor-package --output-template-file packaged.yaml`
-  `sam deploy --template-file ./packaged.yaml --stack-name visitplannr-editor --capabilities CAPABILITY_IAM`
-  
+ [ ] get dynamodb integration working locally?
+ [ ] make validation tidier - tech debt from rushing to integrate
+ [ ] add a read model that can be piped to HTML via API Gateway
+ [ ] add auth so some editors can propose and some can confirm
+ [ ] ????
+ [ ] profit

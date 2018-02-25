@@ -43,10 +43,23 @@ const unmarshal = x => {
   return y
 }
 
+const isDestinationProposedEvent = r => {
+  const eventType = (
+    (r.dynamodb &&
+   r.dynamodb.NewImage &&
+   r.dynamodb.NewImage.event &&
+   r.dynamodb.NewImage.event.M &&
+   r.dynamodb.NewImage.event.M.type &&
+   r.dynamodb.NewImage.event.M.type.S) || 'unknown'
+  )
+  return eventType === 'destinationProposed'
+}
+
 module.exports = {
   from: (dynamoDbEvent) => {
     return (dynamoDbEvent.Records || [])
       .filter(r => r.eventName === 'INSERT')
+      .filter(isDestinationProposedEvent)
       .map(r => r.dynamodb.NewImage)
       .map(r => ({
         EventId: r.EventId.S,

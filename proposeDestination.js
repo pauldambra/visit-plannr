@@ -16,7 +16,8 @@ exports.handler = (event, context, callback) => {
     .apply({
       command: proposeDestination,
       type: 'destinationProposed',
-      streamRepository: streamRepo
+      streamRepository: streamRepo,
+      guidGenerator: guid // because command handler knows about correlation id o_O
     })
     .then(() => map.toSuccessResponse(proposeDestination, callback))
     .catch((err) => map.toResponseForInvalidRequest(err, proposeDestination, callback))

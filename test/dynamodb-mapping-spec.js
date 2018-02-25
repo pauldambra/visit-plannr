@@ -66,4 +66,20 @@ describe('events from dynamodb', function () {
       }
     })
   })
+
+  it('ignores other event types', function () {
+    dynamoDbEvent.Records.push({
+      dynamodb: {
+        NewImage: {
+          event: {
+            M: {
+              type: 'an event we wrote but not something that should be processed'
+            }
+          }
+        }
+      }
+    })
+    const domainEvents = map.from(dynamoDbEvent)
+    expect(domainEvents.length).to.equal(1)
+  })
 })
