@@ -1,4 +1,5 @@
 #! /bin/bash
+# use this to create a table when developing locally
 
 aws dynamodb create-table \
   --table-name visitplannr-events \

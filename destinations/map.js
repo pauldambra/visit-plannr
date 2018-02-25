@@ -1,5 +1,5 @@
 
-const from = (apiEvent, type) => {
+const fromAPI = (apiEvent, type) => {
   const dest = JSON.parse(apiEvent.body)
   const parsedCommand = {
     name: dest.name,
@@ -27,7 +27,7 @@ const toResponseForInvalidRequest = (err, command, callback) => {
 }
 
 module.exports = {
-  from,
+  fromAPI,
   toSuccessResponse,
   toResponseForInvalidRequest
 }

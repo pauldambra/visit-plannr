@@ -1,5 +1,5 @@
 
-const mapper = require('./destinations/mapper')
+const map = require('./destinations/map')
 const commandHandler = require('./destinations/commandHandler')
 const guid = require('./GUID')
 
@@ -8,7 +8,7 @@ const dynamoDbClient = require('./destinations/dynamoDbClient')
 const makeStreamRepository = require('./destinations/make-stream-repository')
 
 exports.handler = (event, context, callback) => {
-  const proposeDestination = mapper.from(event, 'proposeDestination')
+  const proposeDestination = map.fromAPI(event, 'proposeDestination')
 
   streamRepo = streamRepo || makeStreamRepository.for(dynamoDbClient.connect())
 
@@ -16,8 +16,8 @@ exports.handler = (event, context, callback) => {
     {
       command: proposeDestination,
       type: 'destinationProposed',
-      onSuccess: () => mapper.toSuccessResponse(proposeDestination, callback),
-      onError: (err) => mapper.toResponseForInvalidRequest(err, proposeDestination, callback),
+      onSuccess: () => map.toSuccessResponse(proposeDestination, callback),
+      onError: (err) => map.toResponseForInvalidRequest(err, proposeDestination, callback),
       streamRepository: streamRepo,
       guidGenerator: guid
     }
