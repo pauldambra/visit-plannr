@@ -1,24 +1,29 @@
 
 const tableName = process.env.EVENTS_TABLE || 'visitplannr-events'
 
+const DynamoDbPutFailed = require('./DynamoDbPutFailed')
+
 module.exports = {
-  for: dynamoDbClient => {
+  for: (dynamoDbClient, guidGenerator) => {
     return {
       writeToStream: (opts) => {
         var params = {
           TableName: tableName,
           Item: {
             StreamName: opts.streamName,
-            EventId: opts.guidGenerator.generate(),
+            EventId: guidGenerator.generate(),
             event: opts.event
           }
         }
-        dynamoDbClient.put(params, function (err, data) {
-          if (err) {
-            opts.onError('could not write to table: ' + JSON.stringify(err))
-          } else {
-            opts.onSuccess()
-          }
+
+        return new Promise((resolve, reject) => {
+          dynamoDbClient.put(params, function (err, data) {
+            if (err) {
+              reject(new DynamoDbPutFailed('could not write to table: ' + JSON.stringify(err)))
+            } else {
+              resolve(params)
+            }
+          })
         })
       }
     }

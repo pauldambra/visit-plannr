@@ -11,7 +11,7 @@ const isCoordinate = geolocation =>
 module.exports = {
   tryValidate: event => new Promise((resolve, reject) => {
     if (isCoordinate(event.geolocation)) {
-      resolve()
+      resolve(event)
     } else {
       reject(new InvalidGeolocationProvided(`${JSON.stringify(event.geolocation)} is not a geolocation`))
     }

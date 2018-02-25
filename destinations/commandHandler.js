@@ -9,82 +9,57 @@ const eventFrom = (command, eventType) => {
   }
 }
 
-class CommandPipeline {
-  constructor () {
-    this.functions = []
-  }
-
-  use (fn) {
-    this.functions.push(fn)
-    return this
-  }
-
-  run (ev, opts) {
-    for (var i = 0; i < this.functions.length; i++) {
-      const current = this.functions[i]
-      const shouldContinue = current(ev, opts)
-      if (!shouldContinue) break
-    }
-  }
-}
-
-const writeToStream = (ev, opts) => {
+const writeToStream = (opts) => {
   const correlationId = opts.guidGenerator.generate()
 
   const streamName = `destination-${correlationId}`
-  ev.correlationId = correlationId
+  opts.event.correlationId = correlationId
 
-  opts.streamRepository.writeToStream({
-    streamName,
-    event: ev,
-    onSuccess: opts.onSuccess,
-    onError: opts.onError,
-    guidGenerator: opts.guidGenerator
+  return new Promise((resolve, reject) => {
+    opts.streamRepository
+      .writeToStream({
+        streamName,
+        event: opts.event
+      })
+      .then(resolve)
+      .catch(reject)
   })
-
-  return true
 }
 
-const validateName = (ev, opts) => {
-  if (!ev.name) {
+const validateName = (opts) => {
+  if (!opts.event.name) {
     const err = new NoNameProvided(
       'destinations must include a name.',
       {
         command: opts.command,
-        event: ev
+        event: opts.event
       }
     )
-    opts.onError(err)
-    return false
+    return Promise.reject(err)
   }
-  return true
+  return Promise.resolve(opts)
 }
 
-const validateGeoLocation = (ev, opts) => {
-  if (!ev.geolocation) {
+const validateGeoLocation = (opts) => {
+  if (!opts.event.geolocation) {
     const err = new NoGeoLocationProvided(
       'destinations must include a location.',
       {
         command: opts.command,
-        event: ev
+        event: opts.event
       }
     )
-    opts.onError(err)
-    return false
+    return Promise.reject(err)
   }
-  return true
-}
-
-const apply = (opts) => {
-  const ev = eventFrom(opts.command, opts.type)
-
-  new CommandPipeline()
-    .use(validateGeoLocation)
-    .use(validateName)
-    .use(writeToStream)
-    .run(ev, opts)
+  return Promise.resolve(opts)
 }
 
 module.exports = {
-  apply
+  apply: (opts) => {
+    opts.event = eventFrom(opts.command, opts.type)
+
+    return validateGeoLocation(opts)
+      .then(validateName)
+      .then(writeToStream)
+  }
 }
