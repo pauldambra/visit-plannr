@@ -7,6 +7,9 @@ const makeClient = () => {
   const options = {
     region: awsRegion
   }
+  if(process.env.AWS_SAM_LOCAL) {
+    options.endpoint = 'http://dynamodb:8000'
+  }
   dynamoDbClient = new AWS.DynamoDB.DocumentClient(options)
   return dynamoDbClient
 }
