@@ -30,9 +30,11 @@ Let's assume API Gateway and lambda and see what the what
 
 # TODO
 
- - [ ] get dynamodb integration working locally?
+ - [x] get dynamodb integration working locally?
  - [ ] make validation tidier - tech debt from rushing to integrate
  - [ ] add a read model that can be piped to HTML via API Gateway
  - [ ] add auth so some editors can propose and some can confirm
+ - [ ] policies for finer grained access in SAM template
+ - [ ] SAM for autoscaling dynamodb
  - [ ] ????
  - [ ] profit
