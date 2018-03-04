@@ -2,7 +2,7 @@ AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Description: |
-  The RESTful editing service
+  A location and weather aware day-trip planner for parents
 
 Resources:
   EventsTable:
