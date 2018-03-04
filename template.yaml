@@ -15,9 +15,9 @@ Resources:
           AttributeType: S
       KeySchema:
         - AttributeName: EventId
-          KeyType: HASH
-        - AttributeName: StreamName
           KeyType: RANGE
+        - AttributeName: StreamName
+          KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
