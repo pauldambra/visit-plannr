@@ -9,15 +9,15 @@ Resources:
     Type: "AWS::DynamoDB::Table"
     Properties:
       AttributeDefinitions:
-        - AttributeName: EventId
-          AttributeType: S
         - AttributeName: StreamName
+          AttributeType: S
+        - AttributeName: EventId
           AttributeType: S
       KeySchema:
-        - AttributeName: EventId
-          KeyType: RANGE
         - AttributeName: StreamName
           KeyType: HASH
+        - AttributeName: EventId
+          KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
