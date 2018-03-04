@@ -9,21 +9,21 @@ Resources:
     Type: "AWS::DynamoDB::Table"
     Properties:
       AttributeDefinitions:
-        - AttributeName: EventId
-          AttributeType: S
         - AttributeName: StreamName
+          AttributeType: S
+        - AttributeName: EventId
           AttributeType: S
       KeySchema:
-        - AttributeName: EventId
-          KeyType: RANGE
         - AttributeName: StreamName
           KeyType: HASH
+        - AttributeName: EventId
+          KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
       StreamSpecification:
         StreamViewType: NEW_IMAGE
-  CreateDestinationFunction:
+  ProposeDestinationFunction:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs6.10
@@ -34,7 +34,7 @@ Resources:
         Variables:
           EVENTS_TABLE: !Ref EventsTable
       Events:
-        CreateDestination:
+        ProposeDestination:
           Type: Api
           Properties:
             Path: /destination
