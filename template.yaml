@@ -39,20 +39,3 @@ Resources:
           Properties:
             Path: /destination
             Method: POST
-  ValidateGeolocationFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Runtime: nodejs6.10
-      Handler: validateGeolocation.handler
-      Timeout: 10
-      Policies: AmazonDynamoDBFullAccess
-      Environment:
-        Variables:
-          EVENTS_TABLE: !Ref EventsTable
-      Events:
-        DestinationProposed:
-          Type: DynamoDB
-          Properties:
-            StartingPosition: LATEST
-            BatchSize: 1
-            Stream: !GetAtt EventsTable.StreamArn
