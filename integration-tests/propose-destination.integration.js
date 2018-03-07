@@ -1,5 +1,5 @@
-const request = require('supertest');
-var exec = require('child_process').exec;
+const request = require('supertest')
+var exec = require('child_process').exec
 const expect = require('chai').expect
 
 const rootUrl = process.env.rootUrl || 'http://127.0.0.1:3000'
@@ -28,21 +28,21 @@ describe('propose destination', function () {
     countItemsInTable()
       .then(startCount => {
         request(rootUrl)
-            .post('/destination')
-            .send('{"name":"test destination","geolocation":{"x": 0, "y": 0}}')
-            .end((err, res) => {
-              if (err) {
-                done(err)
-                return
-              }
-              countItemsInTable()
-                .then(finalCount => {
-                  expect(finalCount).to.equal(startCount + 1)
-                  done()
-                })
-                .catch(done)
-            })
-        })
+          .post('/destination')
+          .send('{"name":"test destination","geolocation":{"x": 0, "y": 0}}')
+          .end((err, res) => {
+            if (err) {
+              done(err)
+              return
+            }
+            countItemsInTable()
+              .then(finalCount => {
+                expect(finalCount).to.equal(startCount + 1)
+                done()
+              })
+              .catch(done)
+          })
+      })
       .catch(done)
   })
 })
