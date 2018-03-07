@@ -1,7 +1,7 @@
 const streamRepoFactory = require('../destinations/make-stream-repository')
 const expect = require('chai').expect
 
-describe('the repo', function () {
+describe('the stream repository', function () {
   it('decorates the event when writing to the stream', function (done) {
     const fakeGuidGenerator = {
       generate: () => 'a-generated-guid'
@@ -18,16 +18,14 @@ describe('the repo', function () {
         streamName: 'arbitrary-string',
         event: {test: 'poo'}
       }
-    ).then(item => {
-      expect(item).to.deep.equal(
-        {
-          TableName: 'visitplannr-events',
-          Item: {
-            StreamName: 'arbitrary-string',
-            EventId: 'a-generated-guid',
-            event: {test: 'poo'}
-          }
-        })
+    ).then(writtenItem => {
+      expect(writtenItem.TableName).to.equal('visitplannr-events')
+      expect(writtenItem.Item.StreamName).to.equal('arbitrary-string-a-generated-guid')
+      expect(writtenItem.Item.EventId).to.equal('a-generated-guid')
+      expect(writtenItem.Item.event).to.deep.equal({
+        test: 'poo',
+        correlationId: 'a-generated-guid'
+      })
       done()
     })
   })

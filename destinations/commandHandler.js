@@ -10,15 +10,10 @@ const eventFrom = (command, eventType) => {
 }
 
 const writeToStream = (opts) => {
-  const correlationId = opts.guidGenerator.generate()
-
-  const streamName = `destination-${correlationId}`
-  opts.event.correlationId = correlationId
-
   return new Promise((resolve, reject) => {
     opts.streamRepository
       .writeToStream({
-        streamName,
+        streamName: opts.streamName,
         event: opts.event
       })
       .then(resolve)

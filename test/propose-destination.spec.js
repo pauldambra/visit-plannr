@@ -2,17 +2,6 @@ const commandHandler = require('../destinations/commandHandler')
 const chai = require('chai')
 const expect = chai.expect
 
-const assertOnSuccess = (done, actualStreamName, actualEvent) => {
-  expect(actualEvent).to.deep.equal({
-    correlationId: 'a-generated-guid',
-    type: 'the desired event type',
-    name: 'the destination name',
-    geolocation: {something: 'provided'}
-  })
-  expect(actualStreamName).to.include('destination-')
-  done()
-}
-
 describe('when proposing a destination', function () {
   it('writes an event to a new stream', function (done) {
     let streamName
@@ -26,22 +15,27 @@ describe('when proposing a destination', function () {
       }
     }
 
-    const guid = {
-      generate: () => 'a-generated-guid'
-    }
-
     commandHandler
       .apply(
         {
-          command: {name: 'the destination name', geolocation: {something: 'provided'}},
+          command: {
+            name: 'the destination name',
+            geolocation: {something: 'provided'}
+          },
+          streamName: 'the stream name',
           type: 'the desired event type',
-          onSuccess: () => assertOnSuccess(done, streamName, event),
-          onError: () => done('oh! oh! should not get here'),
-          streamRepository: fakeStreamRepo,
-          guidGenerator: guid
+          streamRepository: fakeStreamRepo
         }
       )
-      .then(() => assertOnSuccess(done, streamName, event))
+      .then(() => {
+        expect(event).to.deep.equal({
+          type: 'the desired event type',
+          name: 'the destination name',
+          geolocation: {something: 'provided'}
+        })
+        expect(streamName).to.include('the stream name')
+        done()
+      })
       .catch(done)
   })
 })
