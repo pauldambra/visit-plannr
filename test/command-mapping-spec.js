@@ -1,6 +1,6 @@
 const chai = require('chai')
 const expect = chai.expect
-const map = require('../destinations/map')
+const mapCommand = require('../destinations/mapCommand')
 
 const exampleEvent = {
   httpMethod: 'POST',
@@ -24,9 +24,9 @@ const exampleEvent = {
   path: '/'
 }
 
-describe('the api', function () {
+describe('the command mapper', function () {
   it('can convert a create command out of an HTTP post', function () {
-    const command = map.fromAPI(exampleEvent, 'a command type')
+    const command = mapCommand.fromAPI(exampleEvent, 'a command type')
     expect(command).to.deep.equal({
       name: 'destination',
       geolocation: {

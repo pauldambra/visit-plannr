@@ -1,14 +1,17 @@
 
-const map = require('./destinations/map')
-const commandHandler = require('./destinations/commandHandler')
+const httpResponse = require('./destinations/httpResponse')
+const mapCommand = require('./destinations/mapCommand')
+
 const guid = require('./GUID')
 
 let streamRepo
 const dynamoDbClient = require('./destinations/dynamoDbClient')
 const makeStreamRepository = require('./destinations/make-stream-repository')
 
+const commandHandler = require('./destinations/commandHandler')
+
 exports.handler = (event, context, callback) => {
-  const proposeDestination = map.fromAPI(event, 'proposeDestination')
+  const proposeDestination = mapCommand.fromAPI(event, 'proposeDestination')
 
   streamRepo = streamRepo || makeStreamRepository.for(dynamoDbClient.connect(), guid)
 
@@ -19,6 +22,6 @@ exports.handler = (event, context, callback) => {
       streamName: 'destination',
       streamRepository: streamRepo
     })
-    .then(() => map.toSuccessResponse(proposeDestination, callback))
-    .catch((err) => map.toResponseForInvalidRequest(err, proposeDestination, callback))
+    .then(() => httpResponse.success(proposeDestination, callback))
+    .catch((err) => httpResponse.invalid(err, proposeDestination, callback))
 }
