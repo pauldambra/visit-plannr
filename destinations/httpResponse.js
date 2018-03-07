@@ -2,8 +2,7 @@
 const success = (command, callback) => {
   console.log(`successfully written event from command: ${JSON.stringify(command)}`)
   callback(null, {
-    statusCode: 200,
-    body: 'OK'
+    statusCode: 200
   })
 }
 

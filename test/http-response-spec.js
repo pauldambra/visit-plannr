@@ -9,7 +9,6 @@ describe('the http responses', function () {
     httpResponse.success('only used to log', (_, response) => { responseSent = response })
 
     expect(responseSent.statusCode).to.equal(200)
-    expect(responseSent.body).to.equal('OK')
   })
 
   it('can send invalid request', function () {
