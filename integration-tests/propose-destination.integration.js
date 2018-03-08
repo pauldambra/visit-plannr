@@ -3,18 +3,18 @@ var exec = require('child_process').exec
 const expect = require('chai').expect
 
 const rootUrl = process.env.rootUrl || 'http://127.0.0.1:3000'
+const dynamoDbUrl = process.env.dynamoDbUrl || 'http://0.0.0.0:8000'
 
 const countItemsInTable = () => {
   return new Promise((resolve, reject) => {
     exec(
-      'aws dynamodb scan --table-name visitplannr-events --endpoint-url http://0.0.0.0:8000',
+      `aws dynamodb scan --table-name visitplannr-events --endpoint-url ${dynamoDbUrl}`,
       (error, stdOut, stdErr) => {
         if (error) {
           reject(new Error(error))
           return
         }
         const scanResult = JSON.parse(stdOut)
-        console.log(`read items from table - counted: ${scanResult.Items.length}`)
         resolve(scanResult.Items.length)
       }
     )
