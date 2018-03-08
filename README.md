@@ -28,6 +28,13 @@ Let's assume API Gateway and lambda and see what the what
   * `sudo easy_install pip`
   * `pip install awscli --upgrade --user`
 
+# To run integration tests
+
+`AWS_REGION=eu-west-2 sam local start-api --docker-network lambda-local`
+`docker run -d -v "$PWD":/dynamodb_local_db -p 8000:8000 --network lambda-local --name dynamodb cnadiminti/dynamodb-local`
+`./node_modules/.bin/mocha integration-tests`
+
+
 # TODO
 
  - [x] get dynamodb integration working locally?
