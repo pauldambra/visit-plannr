@@ -23,7 +23,7 @@ const severalFakeEvents = () => {
   ]
 }
 
-const simulateSlowWriteToDyanmo = () => {
+const simulateSlowWriteToDynamo = () => {
   const now = new Date().getTime()
   while (new Date().getTime() < now + 200) { /* do nothing */ }
 }
@@ -39,7 +39,7 @@ describe('the event subscriber can handle multiple events', function () {
     const fakeSlowStreamRepo = {
       writeToStream: () => {
         return new Promise((resolve, reject) => {
-          simulateSlowWriteToDyanmo()
+          simulateSlowWriteToDynamo()
           writesCompleted++
           resolve()
         })
