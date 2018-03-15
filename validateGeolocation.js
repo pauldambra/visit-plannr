@@ -1,4 +1,4 @@
-const map = require('./destinations/dynamoDbMap')
+const mapDomainEvent = require('./destinations/location-validation/dynamoDbMap')
 
 const guid = require('./GUID')
 
@@ -6,25 +6,22 @@ let streamRepo
 const dynamoDbClient = require('./destinations/dynamoDbClient')
 const makeStreamRepository = require('./destinations/make-stream-repository')
 
-const geolocationValidator = require('./destinations/geolocationValidator')
+const geolocationValidator = require('./destinations/location-validation/geolocationValidator')
 
-const geolocationValidationStreams = require('./destinations/location-validation/geolocation-validation-streams')
-let geolocationValidationStreamRepo
+const geolocationEventWriter = require('./destinations/location-validation/geolocation-validation-event-writer')
+let eventWriter
+
+const makeEventSubscriber = require('./destinations/location-validation/event-subscriber')
 
 exports.handler = (event, context, callback) => {
-  const receivedEvents = map.from(event)
+  const receivedEvents = mapDomainEvent.from(event)
 
   streamRepo = streamRepo || makeStreamRepository.for(dynamoDbClient.connect(), guid)
-  geolocationValidationStreamRepo = geolocationValidationStreamRepo || geolocationValidationStreams.for(streamRepo)
+  eventWriter = eventWriter || geolocationEventWriter.for(streamRepo)
+
+  const eventSubscriber = makeEventSubscriber.for(geolocationValidator, eventWriter)
 
   console.log(`received events: ${JSON.stringify(receivedEvents)}`)
 
-  receivedEvents.forEach(receivedEvent => {
-    geolocationValidator
-      .tryValidate(receivedEvent)
-      .then(() => geolocationValidationStreamRepo.writeSuccess(receivedEvent))
-      .catch(err => geolocationValidationStreamRepo.writeFailure(err, receivedEvent))
-  })
-
-  callback(null, 'done')
+  eventSubscriber.apply(receivedEvents, callback)
 }
