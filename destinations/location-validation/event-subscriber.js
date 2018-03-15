@@ -16,7 +16,7 @@ module.exports = {
       })
 
       Promise.all(writePromises)
-        .then(() => callback(null, `wrote ${writePromises.length} promises`))
+        .then(() => callback(null, `wrote ${writePromises.length} events to dynamodb`))
         .catch(err => callback(err))
     }
   })
