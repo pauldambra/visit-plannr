@@ -7,10 +7,14 @@ module.exports = {
   for: (dynamoDbClient, guidGenerator) => {
     return {
       writeToStream: (opts) => {
-        const correlationId = guidGenerator.generate()
+        let streamName = opts.streamName
 
-        const streamName = `${opts.streamName}-${correlationId}`
-        opts.event.correlationId = correlationId
+        if (!opts.event.correlationId) {
+          const correlationId = guidGenerator.generate()
+
+          streamName = `${opts.streamName}-${correlationId}`
+          opts.event.correlationId = correlationId
+        }
 
         var params = {
           TableName: tableName,
