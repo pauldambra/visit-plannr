@@ -3,3 +3,4 @@
 **/.DS_Store
 **/packaged.yaml
 shared-local-instance.db
+dependency-check-report.html
