@@ -2,11 +2,17 @@
 module.exports = {
   for: (geolocationValidator, eventWriter) => ({
     apply: (events, callback) => {
-      const writePromises = events.map(receivedEvent => {
+      console.log(`received events: ${JSON.stringify(events)}`)
+
+      const writePromises = events.map(e => {
         return geolocationValidator
-          .tryValidate(receivedEvent)
-          .then(() => { return eventWriter.writeSuccess(receivedEvent) })
-          .catch(err => { return eventWriter.writeFailure(err, receivedEvent) })
+          .tryValidate(e)
+          .then(() => {
+            return eventWriter.writeSuccess(e)
+          })
+          .catch(err => {
+            return eventWriter.writeFailure(err, e)
+          })
       })
 
       Promise.all(writePromises)

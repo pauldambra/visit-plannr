@@ -3,7 +3,7 @@ const dirtyChai = require('dirty-chai')
 chai.use(dirtyChai)
 const expect = chai.expect
 
-const geolocationValidator = require('../../destinations/location-validation/geolocationValidator')
+const geolocationValidator = require('../../destinations/location-validation/geolocation-validator')
 const geolocationEventWriter = require('../../destinations/location-validation/geolocation-validation-event-writer')
 const makeEventSubscriber = require('../../destinations/location-validation/event-subscriber')
 
@@ -23,26 +23,30 @@ const severalFakeEvents = () => {
   ]
 }
 
+const simulateSlowWriteToDyanmo = () => {
+  const now = new Date().getTime()
+  while (new Date().getTime() < now + 200) { /* do nothing */ }
+}
+
 const assertAllOfTheEventsHaveWritten = (actual, expected) => {
   expect(actual).to.equal(expected)
 }
+
 describe('the event subscriber can handle multiple events', function () {
   it('without calling back it is finished before they write to dynamo', function (done) {
     let writesCompleted = 0
 
-    const fakeStreamRepo = {
+    const fakeSlowStreamRepo = {
       writeToStream: () => {
         return new Promise((resolve, reject) => {
-          // simulate a slow write to dynamo
-          const now = new Date().getTime()
-          while (new Date().getTime() < now + 200) { /* do nothing */ }
+          simulateSlowWriteToDyanmo()
           writesCompleted++
           resolve()
         })
       }
     }
 
-    const eventWriter = geolocationEventWriter.for(fakeStreamRepo)
+    const eventWriter = geolocationEventWriter.for(fakeSlowStreamRepo)
 
     const eventSubscriber = makeEventSubscriber.for(geolocationValidator, eventWriter)
 

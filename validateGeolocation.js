@@ -6,7 +6,7 @@ let streamRepo
 const dynamoDbClient = require('./destinations/dynamoDbClient')
 const makeStreamRepository = require('./destinations/make-stream-repository')
 
-const geolocationValidator = require('./destinations/location-validation/geolocationValidator')
+const geolocationValidator = require('./destinations/location-validation/geolocation-validator')
 
 const geolocationEventWriter = require('./destinations/location-validation/geolocation-validation-event-writer')
 let eventWriter
@@ -20,8 +20,6 @@ exports.handler = (event, context, callback) => {
   eventWriter = eventWriter || geolocationEventWriter.for(streamRepo)
 
   const eventSubscriber = makeEventSubscriber.for(geolocationValidator, eventWriter)
-
-  console.log(`received events: ${JSON.stringify(receivedEvents)}`)
 
   eventSubscriber.apply(receivedEvents, callback)
 }

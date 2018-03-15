@@ -1,4 +1,4 @@
-const geolocationValidator = require('../../destinations/location-validation/geolocationValidator')
+const geolocationValidator = require('../../destinations/location-validation/geolocation-validator')
 const expect = require('chai').expect
 const InvalidGeoLocationProvided = require('../../destinations/location-validation/InvalidGeolocationProvided')
 
