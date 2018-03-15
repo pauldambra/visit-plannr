@@ -1,6 +1,6 @@
 const chai = require('chai')
 const expect = chai.expect
-const httpResponse = require('../destinations/httpResponse')
+const httpResponse = require('../../destinations/propose-destination/httpResponse')
 
 describe('the http responses', function () {
   it('can send success', function () {

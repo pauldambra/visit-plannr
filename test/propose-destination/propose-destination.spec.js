@@ -1,4 +1,4 @@
-const commandHandler = require('../destinations/commandHandler')
+const commandHandler = require('../../destinations/propose-destination/commandHandler')
 const chai = require('chai')
 const expect = chai.expect
 

@@ -1,4 +1,4 @@
-const map = require('../destinations/dynamoDbMap')
+const map = require('../../destinations/location-validation/dynamoDbMap')
 const expect = require('chai').expect
 
 const dynamoDbEvent = {
