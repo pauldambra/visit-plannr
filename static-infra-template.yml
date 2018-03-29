@@ -9,6 +9,7 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       AccessControl: PublicRead
+      Name: visitplannr-site-home
     DeletionPolicy: Retain
   BucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
@@ -38,7 +39,7 @@ Resources:
             # ugh hard coded :(
             OriginAccessIdentity: origin-access-identity/cloudfront/EKUU25OW2EP4U
         Enabled: 'true'
-        Comment: visit plannr static home page
+        Comment: visit plannr static home page cdn
         DefaultRootObject: index.html
         Aliases:
         - visitplannr.info
