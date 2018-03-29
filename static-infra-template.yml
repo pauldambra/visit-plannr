@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: |
+  Static infrastructure for visitplannr - A location and weather aware day-trip planner for parents
+
+Resources:
+  S3HomeBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      AccessControl: PublicRead
+    DeletionPolicy: Retain
+  BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      PolicyDocument:
+        Id: S3HomeBucketPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3HomeBucket
+                - /*
+      Bucket: !Ref S3HomeBucket
+  homePageDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: !Join [ "", [!Ref S3HomeBucket, ".s3.amazonaws.com"]]
+          Id: myS3Origin
+          S3OriginConfig:
+            # ugh hard coded :(
+            OriginAccessIdentity: origin-access-identity/cloudfront/EKUU25OW2EP4U
+        Enabled: 'true'
+        Comment: visit plannr static home page
+        DefaultRootObject: index.html
+        Aliases:
+        - visitplannr.info
+        DefaultCacheBehavior:
+          AllowedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          TargetOriginId: myS3Origin
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: allow-all
+        PriceClass: PriceClass_100
+        Restrictions:
+          GeoRestriction:
+            RestrictionType: whitelist
+            Locations:
+            - AQ
+            - CV
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: 'true'
