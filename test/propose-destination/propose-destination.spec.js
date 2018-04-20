@@ -3,7 +3,7 @@ const chai = require('chai')
 const expect = chai.expect
 
 describe('when proposing a destination', function () {
-  it('writes an event to a new stream', function (done) {
+  it('writes an event to a new stream', async function () {
     let streamName
     let event
 
@@ -15,7 +15,7 @@ describe('when proposing a destination', function () {
       }
     }
 
-    commandHandler
+    await commandHandler
       .apply(
         {
           command: {
@@ -27,15 +27,12 @@ describe('when proposing a destination', function () {
           streamRepository: fakeStreamRepo
         }
       )
-      .then(() => {
-        expect(event).to.deep.equal({
-          type: 'the desired event type',
-          name: 'the destination name',
-          geolocation: {something: 'provided'}
-        })
-        expect(streamName).to.include('the stream name')
-        done()
-      })
-      .catch(done)
+
+    expect(event).to.deep.equal({
+      type: 'the desired event type',
+      name: 'the destination name',
+      geolocation: {something: 'provided'}
+    })
+    expect(streamName).to.include('the stream name')
   })
 })

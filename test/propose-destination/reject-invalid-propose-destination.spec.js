@@ -6,7 +6,7 @@ const chai = require('chai')
 const expect = chai.expect
 
 describe('when proposing a destination', function () {
-  it('rejects destinations with no geolocation', function (done) {
+  it('rejects destinations with no geolocation', async function () {
     const persistenceMechanism = {
       writeToStream: (stream, event) => {
         return new Promise((resolve, reject) => {
@@ -15,36 +15,34 @@ describe('when proposing a destination', function () {
       }
     }
 
-    commandHandler
+    let caughtError = null
+    await commandHandler
       .apply({
         command: {name: 'the destination name'},
         streamRepository: persistenceMechanism
       })
-      .then(() => done('oh oh - should not get here'))
-      .catch(err => {
-        expect(err).to.exist
-          .and.be.instanceof(NoGeoLocationProvided)
-          .and.have.property('message', 'destinations must include a location.')
-        done()
-      })
+      .catch(err => (caughtError = err))
+
+    expect(caughtError).to.exist
+      .and.be.instanceof(NoGeoLocationProvided)
+      .and.have.property('message', 'destinations must include a location.')
   })
 
-  it('rejects destinations with no name', function (done) {
+  it('rejects destinations with no name', async function () {
     const persistenceMechanism = {
       writeToStream: (stream, event) => {}
     }
 
-    commandHandler
+    let caughtError = null
+    await commandHandler
       .apply({
         command: {geolocation: {}},
         streamRepository: persistenceMechanism
       })
-      .then(() => done('oh oh - should not get here'))
-      .catch(err => {
-        expect(err).to.exist
-          .and.be.instanceof(NoNameProvided)
-          .and.have.property('message', 'destinations must include a name.')
-        done()
-      })
+      .catch(err => (caughtError = err))
+
+    expect(caughtError).to.exist
+      .and.be.instanceof(NoNameProvided)
+      .and.have.property('message', 'destinations must include a name.')
   })
 })
