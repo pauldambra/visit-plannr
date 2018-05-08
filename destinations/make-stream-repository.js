@@ -2,6 +2,7 @@
 const tableName = process.env.EVENTS_TABLE || 'visitplannr-events'
 
 const DynamoDbPutFailed = require('./DynamoDbPutFailed')
+const timestamps = require('./timestamps.js')
 
 module.exports = {
   for: (dynamoDbClient, guidGenerator) => {
@@ -18,11 +19,11 @@ module.exports = {
 
         var params = {
           TableName: tableName,
-          Item: {
+          Item: timestamps.decorate({
             StreamName: streamName,
             EventId: guidGenerator.generate(),
             event: opts.event
-          }
+          })
         }
 
         return new Promise((resolve, reject) => {

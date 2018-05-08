@@ -1,5 +1,7 @@
 const streamRepoFactory = require('../destinations/make-stream-repository')
-const expect = require('chai').expect
+const chai = require('chai')
+const expect = chai.expect
+chai.use(require('./chai-event-timestamp.js'))
 
 describe('the stream repository', function () {
   const fakeGuidGenerator = {
@@ -72,6 +74,16 @@ describe('the stream repository', function () {
     it('does not add a correlation id to the stream name when it is already there', async function () {
       const writtenItem = await writeToTheStream
       expect(writtenItem.Item.StreamName).to.equal('destination-8402e864-ba86-4986-2a13-818929514e36')
+    })
+  })
+
+  describe('event timestamps', function () {
+    it('are added before writing', async function () {
+      const writtenItem = await streamRepo.writeToStream({
+        streamName: 'arbitrary-string',
+        event: {winnie: 'pooh'}
+      })
+      expect(writtenItem.Item.timestamp).to.be.withinOneSecondOfNow()
     })
   })
 })
