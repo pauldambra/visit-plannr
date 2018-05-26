@@ -23,13 +23,12 @@ describe('when proposing a destination', function () {
             geolocation: {something: 'provided'}
           },
           streamName: 'the stream name',
-          type: 'the desired event type',
           streamRepository: fakeStreamRepo
         }
       )
 
     expect(event).to.deep.equal({
-      type: 'the desired event type',
+      type: 'destinationProposed',
       name: 'the destination name',
       geolocation: {something: 'provided'}
     })

@@ -3,17 +3,22 @@ const AWS = require('aws-sdk')
 const awsRegion = process.env.AWS_REGION || 'eu-west-2'
 
 let dynamoDbClient
-const makeClient = () => {
+let documentClient
+
+const makeClient = endpoint => {
   const options = {
     region: awsRegion
   }
-  if (process.env.AWS_SAM_LOCAL) {
-    options.endpoint = 'http://dynamodb:8000'
-  }
-  dynamoDbClient = new AWS.DynamoDB.DocumentClient(options)
-  return dynamoDbClient
+
+  options.endpoint = endpoint || 'http://dynamodb:8000'
+
+  dynamoDbClient = new AWS.DynamoDB(options)
+  options.service = dynamoDbClient
+  documentClient = new AWS.DynamoDB.DocumentClient(options)
+  return documentClient
 }
 
 module.exports = {
-  connect: () => dynamoDbClient || makeClient()
+  documentClient: (endpoint) => documentClient || makeClient(endpoint),
+  dynamoDbClient: (endpoint) => dynamoDbClient || makeClient(endpoint)
 }

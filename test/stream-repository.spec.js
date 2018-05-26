@@ -1,4 +1,4 @@
-const streamRepoFactory = require('../destinations/make-stream-repository')
+const makeStreamRepository = require('../destinations/make-stream-repository')
 const chai = require('chai')
 const expect = chai.expect
 chai.use(require('./chai-event-timestamp.js'))
@@ -12,7 +12,7 @@ describe('the stream repository', function () {
     put: (params, callback) => { callback() }
   }
 
-  const streamRepo = streamRepoFactory.for(fakeDynamoDbClient, fakeGuidGenerator)
+  const streamRepo = makeStreamRepository.for('anArbitraryTable', fakeDynamoDbClient, fakeGuidGenerator)
 
   let writeToTheStream
 
@@ -36,7 +36,7 @@ describe('the stream repository', function () {
 
     it('writes to the expected table', async function () {
       const writtenItem = await writeToTheStream
-      expect(writtenItem.TableName).to.equal('visitplannr-events')
+      expect(writtenItem.TableName).to.equal('anArbitraryTable')
     })
 
     it('adds the correlation id to the stream name', async function () {

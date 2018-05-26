@@ -7,18 +7,18 @@ const guid = require('./GUID')
 let streamRepo
 const dynamoDbClient = require('./destinations/dynamoDbClient')
 const makeStreamRepository = require('./destinations/make-stream-repository')
+const tableName = process.env.EVENTS_TABLE || 'visitplannr-events'
 
 const commandHandler = require('./destinations/propose-destination/commandHandler')
 
 exports.handler = (event, context, callback) => {
   const proposeDestination = mapCommand.fromAPI(event, 'proposeDestination')
 
-  streamRepo = streamRepo || makeStreamRepository.for(dynamoDbClient.connect(), guid)
+  streamRepo = streamRepo || makeStreamRepository.for(tableName, dynamoDbClient.documentClient(), guid)
 
   commandHandler
     .apply({
       command: proposeDestination,
-      type: 'destinationProposed',
       streamName: 'destination',
       streamRepository: streamRepo
     })

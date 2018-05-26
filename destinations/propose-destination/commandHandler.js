@@ -1,13 +1,9 @@
 const NoGeoLocationProvided = require('./NoGeoLocationProvided')
 const NoNameProvided = require('./NoNameProvided')
+const destinationProposed = require('./destinationProposed.event.js')
 
-const eventFrom = (command, eventType) => {
-  return {
-    name: command.name,
-    geolocation: command.geolocation,
-    type: eventType
-  }
-}
+const eventFrom = (command) =>
+  destinationProposed(command.name, command.geolocation)
 
 const writeToStream = (opts) => {
   return new Promise((resolve, reject) => {
@@ -51,7 +47,7 @@ const validateGeoLocation = (opts) => {
 
 module.exports = {
   apply: (opts) => {
-    opts.event = eventFrom(opts.command, opts.type)
+    opts.event = eventFrom(opts.command)
 
     return validateGeoLocation(opts)
       .then(validateName)
