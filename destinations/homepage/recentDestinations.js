@@ -1,6 +1,6 @@
 
 module.exports = {
-  topFive: dynamoDbClient => {
+  topFive: dynamoDocumentClient => {
     return []
   }
 }

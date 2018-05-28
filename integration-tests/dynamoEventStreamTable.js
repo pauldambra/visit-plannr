@@ -4,11 +4,11 @@ const dynamoDb = require('../destinations/dynamoDbClient.js')
 const paramsFor = tableName => ({
   AttributeDefinitions: [
     {
-      AttributeName: 'EventId',
+      AttributeName: 'StreamName',
       AttributeType: 'S'
     },
     {
-      AttributeName: 'StreamName',
+      AttributeName: 'timestamp',
       AttributeType: 'S'
     }
   ],
@@ -18,7 +18,7 @@ const paramsFor = tableName => ({
       KeyType: 'HASH'
     },
     {
-      AttributeName: 'EventId',
+      AttributeName: 'timestamp',
       KeyType: 'RANGE'
     }
   ],
@@ -33,7 +33,10 @@ const paramsFor = tableName => ({
 })
 
 const create = tableName =>
-  dynamoDb.dynamoDbClient('http://0.0.0.0:8000').createTable(paramsFor(tableName)).promise()
+  dynamoDb
+    .dynamoDbClient('http://0.0.0.0:8000')
+    .createTable(paramsFor(tableName))
+    .promise()
 
 module.exports = {
   create
