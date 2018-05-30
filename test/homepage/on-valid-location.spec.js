@@ -8,7 +8,7 @@ describe('when checking if a valid location event has been written', function ()
   it('can find that terminal event', function () {
     expect(
       hasTerminalEvents(
-        terminalDynamoDbEvent,
+        terminalDynamoDbEvent.Records,
         arbitraryTerminalEventType))
       .to.be.true()
   })
@@ -16,7 +16,7 @@ describe('when checking if a valid location event has been written', function ()
   it('can ignore unwanted events', function () {
     expect(
       hasTerminalEvents(
-        terminalDynamoDbEvent,
+        terminalDynamoDbEvent.Records,
         'not the arbitraryTerminalEventType'))
       .to.be.false()
   })

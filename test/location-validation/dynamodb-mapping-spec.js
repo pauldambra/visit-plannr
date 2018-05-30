@@ -1,11 +1,11 @@
-const map = require('../../destinations/dynamoDbMap')
+const dynamoDbReader = require('../../destinations/dynamoDbReader.js')
 const expect = require('chai').expect
 
 const dynamoDbEvent = require('../exampleDynamoDbEvent')()
 
 describe('events from dynamodb', function () {
   it('can be mapped to a domain event', function () {
-    const domainEvents = map.from(dynamoDbEvent, 'destinationProposed')
+    const domainEvents = dynamoDbReader.toDomainEvent(dynamoDbEvent.Records)
     expect(domainEvents[0]).to.deep.equal({
       StreamName: 'destination-8402e864-ba86-4986-2a13-818929514e36',
       EventId: 'd95fe21f-491d-4122-226a-af27eb99933c',
@@ -30,7 +30,7 @@ describe('events from dynamodb', function () {
         }
       }
     })
-    const domainEvents = map.from(dynamoDbEvent, 'destinationProposed')
+    const domainEvents = dynamoDbReader.toDomainEvent(dynamoDbEvent.Records)
     expect(domainEvents.length).to.equal(1)
   })
 })

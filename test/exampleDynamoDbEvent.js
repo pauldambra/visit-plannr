@@ -1,5 +1,5 @@
 
-module.exports = (eventType) => ({
+module.exports = (eventType, streamName) => ({
   'Records': [
     {
       'eventID': '79e91d2b44008188f4e7f33543c74925',
@@ -19,7 +19,7 @@ module.exports = (eventType) => ({
         },
         'NewImage': {
           'StreamName': {
-            'S': 'destination-8402e864-ba86-4986-2a13-818929514e36'
+            'S': streamName || 'destination-8402e864-ba86-4986-2a13-818929514e36'
           },
           'EventId': {
             'S': 'd95fe21f-491d-4122-226a-af27eb99933c'

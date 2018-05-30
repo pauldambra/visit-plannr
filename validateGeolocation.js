@@ -1,4 +1,4 @@
-const mapDomainEvent = require('./destinations/location-validation/dynamoDbMap')
+const dynamoDbReader = require('./destinations/dynamoDbReader')
 
 const guid = require('./GUID')
 
@@ -15,7 +15,9 @@ let eventWriter
 const makeEventSubscriber = require('./destinations/location-validation/event-subscriber')
 
 exports.handler = (event, context, callback) => {
-  const receivedEvents = mapDomainEvent.from(event)
+  // TODO this isn't a hexagon, dozy Paul - why does the handler know so much
+  const receivedEvents = dynamoDbReader.toDomainEvent(event.Records)
+    .filter(de => de.type === 'destinationProposed')
 
   streamRepo = streamRepo || makeStreamRepository.for(tableName, dynamoDbClient.documentClient(), guid)
   eventWriter = eventWriter || geolocationEventWriter.for(streamRepo)

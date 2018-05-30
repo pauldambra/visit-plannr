@@ -22,44 +22,29 @@
   this is a relatively dumb method to flatten that structure
 */
 const unmarshal = x => {
-  const y = {}
-
-  Object.keys(x).forEach(key => {
-    const value = x[key]
+  return Object.keys(x).reduce((result, current) => {
+    const value = x[current]
 
     if ((typeof value === 'object') && (value !== null)) {
       // wat about arrays :(
       if (value.M) {
-        y[key] = unmarshal(value.M)
+        result[current] = unmarshal(value.M)
       } else {
         const theUnmarshalledValue = value[Object.keys(value)[0]]
-        y[key] = theUnmarshalledValue
+        result[current] = theUnmarshalledValue
       }
     } else {
-      y[key] = value
+      result[current] = value
     }
-  })
 
-  return y
-}
-
-const isDestinationProposedEvent = (r, type) => {
-  const eventType = (
-    (r.dynamodb &&
-   r.dynamodb.NewImage &&
-   r.dynamodb.NewImage.event &&
-   r.dynamodb.NewImage.event.M &&
-   r.dynamodb.NewImage.event.M.type &&
-   r.dynamodb.NewImage.event.M.type.S) || 'unknown'
-  )
-  return eventType === type
+    return result
+  }, {})
 }
 
 module.exports = {
-  from: (dynamoDbEvent, targetEventType) => {
-    return (dynamoDbEvent.Records || [])
+  toDomainEvent: (dynamoDbEvents, targetEventType) => {
+    return (dynamoDbEvents || [])
       .filter(r => r.eventName === 'INSERT')
-      .filter(r => isDestinationProposedEvent(r, targetEventType))
       .map(r => r.dynamodb.NewImage)
       .map(r => ({
         EventId: r.EventId.S,

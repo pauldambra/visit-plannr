@@ -50,7 +50,24 @@ Resources:
         Variables:
           EVENTS_TABLE: !Ref EventsTable
       Events:
-        DestinationProposed:
+        DyanmoEventStream:
+          Type: DynamoDB
+          Properties:
+            StartingPosition: LATEST
+            BatchSize: 1
+            Stream: !GetAtt EventsTable.StreamArn
+  UpdateDestinationReadModelFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs8.10
+      Handler: updateDestinationReadModel.handler
+      Timeout: 10
+      Policies: AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          EVENTS_TABLE: !Ref EventsTable
+      Events:
+        DyanmoEventStream:
           Type: DynamoDB
           Properties:
             StartingPosition: LATEST
