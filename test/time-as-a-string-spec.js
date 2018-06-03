@@ -29,12 +29,9 @@ describe('timestamps', function () {
   })
 
   it('when given an instant in time can convert to iso-8601', function () {
-    const monthIsZeroBasedDate = new Date(2017, 4, 1, 15, 23, 24)
-    console.log(monthIsZeroBasedDate, 'date value')
-    const offset = monthIsZeroBasedDate.getTimezoneOffset()
-    console.log(offset, 'tz offset')
+    const monthIsZeroBasedDate = new Date(Date.UTC(2017, 4, 1, 15, 23, 24))
     const stringified = timestamps.stringify(monthIsZeroBasedDate)
-    expect(stringified).to.eql('2017-05-01T14:23:24.000Z')
+    expect(stringified).to.eql('2017-05-01T15:23:24.000Z')
   })
 
   it('can convert now to iso-8601', function () {
