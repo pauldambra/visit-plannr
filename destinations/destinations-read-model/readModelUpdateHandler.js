@@ -6,15 +6,10 @@ module.exports = {
   withStreamReader: (streamReader) => ({
     withReadModelWriter: (modelWriter) => ({
       writeModelsFor: (event) =>
-        streamNames
-          .from(event.Records)
-          .map(streamName => {
-            const stream = streamReader.readStream(streamName)
-            return destinationReadModel.createFrom(stream)
-          })
-          .map(readModel => {
-            return modelWriter.write(readModel)
-          })
+        streamNames.from(event.Records)
+          .map(streamReader.readStream)
+          .map(destinationReadModel.createFrom)
+          .map(modelWriter.write)
     })
   })
 }
