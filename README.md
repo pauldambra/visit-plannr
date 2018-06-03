@@ -2,6 +2,8 @@
 
 See [my blog series for context](https://pauldambra.github.io/2018/02/serverless-1.html)
 
+[![](https://codescene.io/projects/2900/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/2900/jobs/latest-successful/results)
+
 # Editing
 
 People will need to create and set details of destinations
