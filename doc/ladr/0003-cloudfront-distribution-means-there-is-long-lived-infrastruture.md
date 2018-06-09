@@ -16,5 +16,5 @@ To have two infrastructure templates. One with slow to provision infrastructure.
 
 ## Consequences
 
- 1) Development sessions should begin by creating the stack described by the `static-infra-template.yml` file.
- 2) Some resources will likely need known names so they can be referenced between the templates.
+ 1. Development sessions should begin by creating the stack described by the `static-infra-template.yml` file.
+ 2. Some resources will likely need known names so they can be referenced between the templates.
