@@ -30,7 +30,7 @@ describe('the destination read model', function () {
     ]
     const readModel = destinationReadModel.apply(stream)
 
-    expect(readModel.status).to.eql('valid')
+    expect(readModel.status).to.eql('locationValidated')
   })
 
   it('marks the model as invalid if validation did not succeed', function () {
@@ -49,7 +49,7 @@ describe('the destination read model', function () {
     ]
     const readModel = destinationReadModel.apply(stream)
 
-    expect(readModel.status).to.eql('valid')
+    expect(readModel.status).to.eql('locationValidated')
     expect(readModel.name).to.eql('foo')
     expect(readModel.geolocation).to.eql({x: 0, y: 100})
   })

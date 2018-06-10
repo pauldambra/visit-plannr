@@ -12,6 +12,8 @@ let readModelWriter
 const makeReadModelRepository = require('./destinations/destinations-read-model/make-readmodel-repository')
 const readModelsTableName = process.env.READMODEL_TABLE || 'vistplannr-readmodels'
 
+const terminalEventType = process.env.TERMINAL_EVENT || 'locationValidated'
+
 exports.handler = async event => {
   streamReader = streamReader || makeStreamRepository.for(
     eventsTableName,
@@ -27,6 +29,7 @@ exports.handler = async event => {
     await readModelUpdateHandler
       .withStreamReader(streamReader)
       .withReadModelWriter(readModelWriter)
+      .allowingModelsWithStatus(terminalEventType)
       .writeModelsFor(event)
 
   return Promise.all(writes)

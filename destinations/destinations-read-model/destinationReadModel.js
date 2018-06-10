@@ -9,7 +9,7 @@ module.exports = {
           model.timestamp = event.timestamp
           break
         case 'geolocationValidationSucceeded':
-          model.status = 'valid'
+          model.status = 'locationValidated'
           break
         case 'geolocationValidationFailed':
           model.status = 'failed'

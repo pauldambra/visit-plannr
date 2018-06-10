@@ -20,7 +20,15 @@ describe('the read model update handler', function () {
                 Count: 1,
                 Items: queryCounter === 1
                   ? [{ event: {name: 'potat', type: 'destinationProposed'} }]
-                  : [{ event: {name: 'floppity', type: 'destinationProposed'} }]
+                  : [
+                    { event: {
+                      name: 'floppity',
+                      type: 'destinationProposed'
+                    }},
+                    { event: {
+                      type: 'geolocationValidationSucceeded'
+                    }}
+                  ]
               })
             }
           }
@@ -64,10 +72,11 @@ describe('the read model update handler', function () {
       await readModelUpdateHandler
         .withStreamReader(reader)
         .withReadModelWriter(writer)
+        .allowingModelsWithStatus('locationValidated')
         .writeModelsFor(lambdaTriggeringEvent)
 
     const writeResults = await Promise.all(writes)
     const destinationNames = writeResults.map(wr => wr.Item.name)
-    expect(destinationNames).to.have.deep.members(['potat', 'floppity'])
+    expect(destinationNames).to.have.deep.members(['floppity'])
   })
 })
