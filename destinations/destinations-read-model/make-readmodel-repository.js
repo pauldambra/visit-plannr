@@ -4,7 +4,7 @@ const DynamoDbPutFailed = require('../DynamoDbPutFailed')
 module.exports = {
   for: (tableName, dynamoDbClient, guidGenerator) => {
     return {
-      write: (readModel) => {
+      write: readModel => {
         // TODO how do we handle duplicates or updates?
 
         var params = {

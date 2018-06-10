@@ -5,12 +5,21 @@ const awsRegion = process.env.AWS_REGION || 'eu-west-2'
 let dynamoDbClient
 let documentClient
 
+const setDynamoDbEndpoint = (options, endpoint) => {
+  if (endpoint) {
+    options.endpoint = endpoint
+  } else if (process.env.AWS_SAM_LOCAL) {
+    options.endpoint = 'http://dynamodb:8000'
+  }
+  return options
+}
+
 const makeClient = endpoint => {
-  const options = {
+  let options = {
     region: awsRegion
   }
 
-  options.endpoint = endpoint || 'http://dynamodb:8000'
+  options = setDynamoDbEndpoint(options, endpoint)
 
   dynamoDbClient = new AWS.DynamoDB(options)
   options.service = dynamoDbClient

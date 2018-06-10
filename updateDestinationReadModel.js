@@ -10,9 +10,9 @@ const eventsTableName = process.env.EVENTS_TABLE || 'visitplannr-events'
 
 let readModelWriter
 const makeReadModelRepository = require('./destinations/destinations-read-model/make-readmodel-repository')
-const readModelsTableName = process.env.DESTINATION_READMODEL_TABLE || 'vistplannr-destinations'
+const readModelsTableName = process.env.READMODEL_TABLE || 'vistplannr-readmodels'
 
-exports.handler = async (event) => {
+exports.handler = async event => {
   streamReader = streamReader || makeStreamRepository.for(
     eventsTableName,
     dynamoDbClient.documentClient(),
@@ -23,10 +23,11 @@ exports.handler = async (event) => {
     dynamoDbClient.documentClient(),
     guid)
 
-  const writes = readModelUpdateHandler
-    .withStreamReader(streamReader)
-    .withReadModelWriter(readModelWriter)
-    .writeModelsFor(event)
+  const writes =
+    await readModelUpdateHandler
+      .withStreamReader(streamReader)
+      .withReadModelWriter(readModelWriter)
+      .writeModelsFor(event)
 
   return Promise.all(writes)
 }

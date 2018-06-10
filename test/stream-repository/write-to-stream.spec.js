@@ -1,7 +1,7 @@
-const makeStreamRepository = require('../destinations/make-stream-repository')
+const makeStreamRepository = require('../../destinations/make-stream-repository')
 const chai = require('chai')
 const expect = chai.expect
-chai.use(require('./chai-event-timestamp.js'))
+chai.use(require('../chai-event-timestamp.js'))
 
 describe('the stream repository', function () {
   const fakeGuidGenerator = {
@@ -28,10 +28,8 @@ describe('the stream repository', function () {
 
     it('decorates the event with a correlation id', async function () {
       const writtenItem = await writeToTheStream
-      expect(writtenItem.Item.event).to.deep.equal({
-        winnie: 'pooh',
-        correlationId: 'a-generated-guid'
-      })
+      const actual = writtenItem.Item.event.correlationId
+      expect(actual).to.deep.eql('a-generated-guid')
     })
 
     it('writes to the expected table', async function () {
@@ -84,6 +82,7 @@ describe('the stream repository', function () {
         event: {winnie: 'pooh'}
       })
       expect(writtenItem.Item.timestamp).to.be.withinOneSecondOfNow()
+      expect(writtenItem.Item.event.timestamp).to.be.withinOneSecondOfNow()
     })
   })
 })

@@ -11,12 +11,30 @@ Resources:
       AttributeDefinitions:
         - AttributeName: StreamName
           AttributeType: S
-        - AttributeName: EventId
+        - AttributeName: timestamp
           AttributeType: S
       KeySchema:
         - AttributeName: StreamName
           KeyType: HASH
-        - AttributeName: EventId
+        - AttributeName: timestamp
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
+  ReadModelTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: type
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: S
+      KeySchema:
+        - AttributeName: type
+          KeyType: HASH
+        - AttributeName: timestamp
           KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 5
@@ -66,6 +84,7 @@ Resources:
       Environment:
         Variables:
           EVENTS_TABLE: !Ref EventsTable
+          READMODEL_TABLE: !Ref ReadModelTable
       Events:
         DyanmoEventStream:
           Type: DynamoDB

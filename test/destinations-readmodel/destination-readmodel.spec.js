@@ -6,6 +6,13 @@ const geolocationValidationEvent = require('../../destinations/location-validati
 const destinationReadModel = require('../../destinations/destinations-read-model/destinationReadModel.js')
 
 describe('the destination read model', function () {
+  it('has basic properties even without events applied', function () {
+    const stream = []
+    const readModel = destinationReadModel.apply(stream)
+    expect(readModel.status).to.eql('pending')
+    expect(readModel.type).to.eql('destination')
+  })
+
   it('can apply a destination proposed event', function () {
     const stream = [
       destinationProposedEvent('foo', {x: 0, y: 100})
