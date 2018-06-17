@@ -15,7 +15,6 @@ let eventWriter
 const makeEventSubscriber = require('./destinations/location-validation/event-subscriber')
 
 exports.handler = (event, context, callback) => {
-
   streamRepo = streamRepo || makeStreamRepository.for(tableName, dynamoDbClient.documentClient(), guid)
   eventWriter = eventWriter || geolocationEventWriter.for(streamRepo)
 

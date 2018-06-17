@@ -17,4 +17,4 @@ sam package --template-file template.yaml \
 
 sam deploy --template-file ./packaged.yaml \
   --stack-name visitplannr \
-  --capabilities CAPABILITY_IAM
+  --capabilities CAPABILITY_NAMED_IAM

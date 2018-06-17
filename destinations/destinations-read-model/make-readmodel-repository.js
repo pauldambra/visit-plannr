@@ -5,8 +5,6 @@ module.exports = {
   for: (tableName, dynamoDbClient, guidGenerator) => {
     return {
       write: readModel => {
-        // TODO how do we handle duplicates or updates?
-
         var params = {
           TableName: tableName,
           Item: readModel
@@ -21,6 +19,20 @@ module.exports = {
             }
           })
         })
+      },
+      read: limit => {
+        return dynamoDbClient.query({
+          ExpressionAttributeNames: {
+            '#t': 'type'
+          },
+          ExpressionAttributeValues: {
+            ':d': 'destination'
+          },
+          ScanIndexForward: false, // descending sort
+          KeyConditionExpression: '#t = :d',
+          Limit: limit,
+          TableName: tableName
+        }).promise()
       }
     }
   }

@@ -40,6 +40,6 @@ describe('validating geolocations', function () {
 
     expect(caughtError).to.exist
       .and.be.instanceof(InvalidGeoLocationProvided)
-      .and.have.property('message', '{"geolocation":"not valid?"} does not have a valid geolocation. Found: {"hasGeolocation":true,"geolocationHasTwoKeys":false,"latitudeIsNumeric":false,"longitudeIsNumeric":false}')
+      .and.have.property('message', '{"geolocation":"not valid?"} does not have a valid geolocation. Found: {"hasGeolocation":true,"geolocationIsObject":false,"geolocationHasTwoKeys":true,"latitudeIsNumeric":false,"longitudeIsNumeric":false}')
   })
 })

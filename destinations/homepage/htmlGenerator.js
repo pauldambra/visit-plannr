@@ -1,6 +1,7 @@
 
 module.exports = {
-  homepage: ([one, two, three, four, five]) => (`
+  homepage: destinations => {
+    const head = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +13,17 @@ module.exports = {
   <h1>proof if proof be need be</h1>
   <div>
     <ul>
-      <li>${one.name}</li>
-      <li>${two.name}</li>
-      <li>${three.name}</li>
-      <li>${four.name}</li>
-      <li>${five.name}</li>
+`
+
+    const tail = `
     </ul>
   </div>
 </body>
 </html>
-`)
+`
+
+    const list = destinations.map(d => `      <li>${d.name}</li>`).join('\n')
+
+    return head + list + tail
+  }
 }

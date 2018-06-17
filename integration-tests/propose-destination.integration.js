@@ -29,7 +29,7 @@ describe('propose destination', function () {
       .then(startCount => {
         request(rootUrl)
           .post('/destination')
-          .send('{"name":"test destination","geolocation":{"x": 0, "y": 0}}')
+          .send('{"name":"test destination","geolocation":{"latitude": 0, "longitude": 0}}')
           .end((err, res) => {
             if (err) {
               done(err)

@@ -12,15 +12,23 @@ const isNumeric = n =>
 
 module.exports = {
   tryValidate: dynamoDbEvent => new Promise((resolve, reject) => {
+    console.log(dynamoDbEvent)
+    console.log(dynamoDbEvent.event)
+    console.log(typeof dynamoDbEvent.event.geolocation)
+    console.log(Object.keys(dynamoDbEvent.event.geolocation))
+    console.log(Object.keys(dynamoDbEvent.event.geolocation).length)
+    console.log(Object.keys(dynamoDbEvent.event.geolocation).length >= 2)
     const coordinateValidation = {
       hasGeolocation: dynamoDbEvent.event.hasOwnProperty('geolocation'),
-      geolocationHasTwoKeys: Object.keys(dynamoDbEvent.event.geolocation).length === 2,
+      geolocationIsObject: typeof dynamoDbEvent.event.geolocation === 'object',
+      geolocationHasTwoKeys: Object.keys(dynamoDbEvent.event.geolocation).length >= 2,
       latitudeIsNumeric: isNumeric(strictlyParseFloat(dynamoDbEvent.event.geolocation.latitude)),
       longitudeIsNumeric: isNumeric(strictlyParseFloat(dynamoDbEvent.event.geolocation.longitude))
     }
 
     const isCoordinate =
       coordinateValidation.hasGeolocation &&
+      coordinateValidation.geolocationIsObject &&
       coordinateValidation.geolocationHasTwoKeys &&
       coordinateValidation.latitudeIsNumeric &&
       coordinateValidation.longitudeIsNumeric

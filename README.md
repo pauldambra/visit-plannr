@@ -40,14 +40,17 @@ Let's assume API Gateway and lambda and see what the what
 `docker run -d -v "$PWD":/dynamodb_local_db -p 8000:8000 --network lambda-local --name dynamodb cnadiminti/dynamodb-local`
 `./node_modules/.bin/mocha integration-tests`
 
+# Deploying infrastructure
+
+`./deploy.sh`
 
 # TODO
 
  - [x] get dynamodb integration working locally?
  - [ ] make validation tidier - tech debt from rushing to integrate
- - [ ] add a read model that can be piped to HTML via API Gateway
+ - [X] add a read model that can be piped to HTML via API Gateway
  - [ ] add auth so some editors can propose and some can confirm
- - [ ] policies for finer grained access in SAM template
+ - [X] policies for finer grained access in SAM template
  - [ ] SAM for autoscaling dynamodb
  - [ ] ????
  - [ ] profit

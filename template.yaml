@@ -2,9 +2,78 @@ AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Description: |
-  A location and weather aware day-trip planner for parents
+  A location and weather aware day-trip planner
 
 Resources:
+  S3HomeBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      AccessControl: PublicRead
+      BucketName: visitplannr-site-home
+    DeletionPolicy: Retain
+  BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      PolicyDocument:
+        Id: S3HomeBucketPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3HomeBucket
+                - /*
+      Bucket: !Ref S3HomeBucket
+  BucketWritePolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: "visitplannr-s3-home-writers"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:PutObject"
+              - "s3:PutObjectACL"
+            Resource: !Join
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref S3HomeBucket
+                  - /*
+  homePageDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: !Join [ "", [!Ref S3HomeBucket, ".s3.amazonaws.com"]]
+          Id: myS3Origin
+          S3OriginConfig:
+            # ugh hard coded :(
+            OriginAccessIdentity: origin-access-identity/cloudfront/EKUU25OW2EP4U
+        Enabled: 'true'
+        Comment: visit plannr static home page cdn
+        DefaultRootObject: index.html
+        Aliases:
+        - visitplannr.info
+        DefaultCacheBehavior:
+          AllowedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          TargetOriginId: myS3Origin
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: allow-all
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: 'true'
   EventsTable:
     Type: "AWS::DynamoDB::Table"
     Properties:
@@ -47,7 +116,20 @@ Resources:
       Runtime: nodejs8.10
       Handler: proposeDestination.handler
       Timeout: 10
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'dynamodb:PutItem'
+              Resource: !Join
+              - ''
+              - - 'arn:aws:dynamodb:'
+                - !Ref AWS::Region
+                - ':'
+                - !Ref AWS::AccountId
+                - ':table/'
+                - !Ref EventsTable
       Environment:
         Variables:
           EVENTS_TABLE: !Ref EventsTable
@@ -63,7 +145,20 @@ Resources:
       Runtime: nodejs8.10
       Handler: validateGeolocation.handler
       Timeout: 10
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'dynamodb:PutItem'
+              Resource: !Join
+              - ''
+              - - 'arn:aws:dynamodb:'
+                - !Ref AWS::Region
+                - ':'
+                - !Ref AWS::AccountId
+                - ':table/'
+                - !Ref EventsTable
       Environment:
         Variables:
           EVENTS_TABLE: !Ref EventsTable
@@ -80,7 +175,32 @@ Resources:
       Runtime: nodejs8.10
       Handler: updateDestinationReadModel.handler
       Timeout: 10
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'dynamodb:PutItem'
+              Resource: !Join
+              - ''
+              - - 'arn:aws:dynamodb:'
+                - !Ref AWS::Region
+                - ':'
+                - !Ref AWS::AccountId
+                - ':table/'
+                - !Ref ReadModelTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'dynamodb:Query'
+              Resource: !Join
+              - ''
+              - - 'arn:aws:dynamodb:'
+                - !Ref AWS::Region
+                - ':'
+                - !Ref AWS::AccountId
+                - ':table/'
+                - !Ref EventsTable
       Environment:
         Variables:
           EVENTS_TABLE: !Ref EventsTable
@@ -92,3 +212,34 @@ Resources:
             StartingPosition: LATEST
             BatchSize: 1
             Stream: !GetAtt EventsTable.StreamArn
+  HomePageGeneratorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs8.10
+      Handler: homePageGenerator.handler
+      Timeout: 10
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - !Ref BucketWritePolicy
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'dynamodb:Query'
+              Resource: !Join
+              - ''
+              - - 'arn:aws:dynamodb:'
+                - !Ref AWS::Region
+                - ':'
+                - !Ref AWS::AccountId
+                - ':table/'
+                - !Ref ReadModelTable
+      Environment:
+        Variables:
+          READMODEL_TABLE: !Ref ReadModelTable
+      Events:
+        DyanmoEventStream:
+          Type: DynamoDB
+          Properties:
+            StartingPosition: LATEST
+            BatchSize: 1
+            Stream: !GetAtt ReadModelTable.StreamArn

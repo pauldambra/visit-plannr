@@ -56,20 +56,7 @@ describe('destination read models', function () {
         .map(readModelRepo.write)
     )
 
-    const readResults = await dynamoDbClient.query({
-      ExpressionAttributeNames: {
-        '#t': 'type'
-      },
-      ExpressionAttributeValues: {
-        ':d': 'destination'
-      },
-      ScanIndexForward: false, // descending sort
-      KeyConditionExpression: '#t = :d',
-      Limit: 5,
-      TableName: tableName
-    }).promise()
-
-    console.log(readResults, 'readResults')
+    const readResults = await readModelRepo.read(5)
 
     expect(readResults.Count).to.eql(5)
     expect(readResults.ScannedCount).to.eql(5)
