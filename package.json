@@ -13,9 +13,9 @@
   "author": "Paul D'Ambra",
   "license": "UNLICENSED",
   "dependencies": {
-    "aws-sdk": "^2.247.1"
   },
   "devDependencies": {
+    "aws-sdk": "^2.247.1",
     "chai": "^4.1.2",
     "coveralls": "^3.0.1",
     "dirty-chai": "^2.0.1",
