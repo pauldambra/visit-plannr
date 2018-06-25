@@ -42,15 +42,19 @@ Let's assume API Gateway and lambda and see what the what
 
 # Deploying infrastructure
 
-`./deploy.sh`
+`sam package --template-file ./static-infra-template.yml --s3-bucket visitplannr --output-template-file static-packaged.yaml`
+
+followed by
+
+`aws cloudformation deploy --template-file /Users/pauldambra/Documents/git/visitplannr/static-packaged.yaml --stack-name vistplannr-static  --capabilities CAPABILITY_IAM`
 
 # TODO
 
  - [x] get dynamodb integration working locally?
  - [ ] make validation tidier - tech debt from rushing to integrate
- - [X] add a read model that can be piped to HTML via API Gateway
+ - [ ] add a read model that can be piped to HTML via API Gateway
  - [ ] add auth so some editors can propose and some can confirm
- - [X] policies for finer grained access in SAM template
+ - [ ] policies for finer grained access in SAM template
  - [ ] SAM for autoscaling dynamodb
  - [ ] ????
  - [ ] profit

@@ -1,7 +1,7 @@
 **/node_modules
 .DS_Store
 **/.DS_Store
-**/packaged.yaml
+**/*packaged.yaml
 shared-local-instance.db
 dependency-check-report.html
 .nyc_output
