@@ -10,7 +10,7 @@ const writeToS3 = (html, s3, bucketName) => {
     ContentType: 'text/html',
     Bucket: bucketName
   }
-  console.log(params, 's3 upload params')
+
   return s3.upload(params).promise()
 }
 
@@ -22,9 +22,11 @@ module.exports = {
 
         return async (event) => {
           console.log(event, 'triggering event')
+
           // we don't care about the event o_O
           const destinations = await readModelRepo.read(5)
           console.log(destinations, 'loaded destinations for home page generation')
+
           const html = generate.homepage(destinations.Items)
           return writeToS3(html, s3, bucketName)
         }

@@ -12,7 +12,6 @@ exports.handler = async event => {
     await ssm.getParameter({Name: process.env.PARAM_NAME})
       .promise()
 
-  console.log(cloudfrontDistributionIdParam, 'working with cloudfrontDistributionIdParam')
   const invalidations =
     await fileChanged
       .withCDN(cloudfront)

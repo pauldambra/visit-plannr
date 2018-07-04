@@ -7,11 +7,6 @@ const dynamoDbClient = require('./destinations/dynamoDbClient')
 const lambdaHandler = require('./destinations/homepage/handler')
 const readModelsTableName = process.env.READMODEL_TABLE || 'vistplannr-readmodels'
 
-/**
-  triggered on any write to the dynamodb stream
-  if that write was a successful terminal event for a destination
-  then it regenerates the home page HTML to s3
-**/
 exports.handler = async event => {
   documentClient = documentClient || dynamoDbClient.documentClient()
 
