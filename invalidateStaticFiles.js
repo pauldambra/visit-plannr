@@ -1,4 +1,5 @@
-const AWS = require('aws-sdk')
+const AWSXRay = require('aws-xray-sdk');
+const AWS = AWSXRay.captureAWS(require('aws-sdk'))
 const cloudfront = new AWS.CloudFront()
 const ssm = new AWS.SSM();
 const fileChanged = require('./destinations/cloudfront/handler.js')
