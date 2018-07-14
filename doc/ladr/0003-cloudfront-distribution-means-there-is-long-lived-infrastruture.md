@@ -6,6 +6,8 @@ Date: 2018-03-29
 
 Proposed
 
+Superceded by [6. collapse to one cloudformation template](0006-collapse-to-one-cloudformation-template.md)
+
 ## Context
 
 The original intention was to be able to build the entire application stack from a single template. However, adding a [cloudfront distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html) takes 15-25 minutes to complete.
