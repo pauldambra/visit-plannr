@@ -1,4 +1,4 @@
-# Visit-Plannr [![Coverage Status](https://coveralls.io/repos/github/pauldambra/visit-plannr/badge.svg?branch=master)](https://coveralls.io/github/pauldambra/visit-plannr?branch=master) [![Build Status](https://travis-ci.org/pauldambra/visit-plannr.svg?branch=master)](https://travis-ci.org/pauldambra/visit-plannr)
+# Visit-Plannr [![Coverage Status](https://coveralls.io/repos/github/pauldambra/visit-plannr/badge.svg?branch=master)](https://coveralls.io/github/pauldambra/visit-plannr?branch=master) [![Build Status](https://travis-ci.org/pauldambra/visit-plannr.svg?branch=master)](https://travis-ci.org/pauldambra/visit-plannr) ![visit-plannr-ci](https://github.com/pauldambra/visit-plannr/workflows/visit-plannr-ci/badge.svg)
 
 See [my blog series for context](https://pauldambra.github.io/2018/02/serverless-1.html)
 
