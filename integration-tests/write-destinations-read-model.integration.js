@@ -1,15 +1,15 @@
 const expect = require('chai').expect
 
-const destinationProposedEvent = require('../destinations/propose-destination/destinationProposed.event.js')
-const geolocationValidationEvent = require('../destinations/location-validation/geolocationValidation.event.js')
-const destinationReadModel = require('../destinations/destinations-read-model/destinationReadModel.js')
+const destinationProposedEvent = require('../src/destinations/propose-destination/destinationProposed.event.js')
+const geolocationValidationEvent = require('../src/destinations/location-validation/geolocationValidation.event.js')
+const destinationReadModel = require('../src/destinations/destinations-read-model/destinationReadModel.js')
 
 const now = (new Date()).toISOString().replace(/:/g, '-')
 const tableName = `theTable-${now}`
 
-const guid = require('../GUID.js')
-const dynamoDbClient = require('../destinations/dynamoDbClient').documentClient('http://0.0.0.0:8000')
-const makeReadModelRepository = require('../destinations/destinations-read-model/make-readmodel-repository.js')
+const guid = require('../src/GUID.js')
+const dynamoDbClient = require('../src/destinations/dynamoDbClient').documentClient('http://0.0.0.0:8000')
+const makeReadModelRepository = require('../src/destinations/destinations-read-model/make-readmodel-repository.js')
 const readModelRepo = makeReadModelRepository.for(tableName, dynamoDbClient, guid)
 
 const dynamoReadModelsTable = require('./dynamoReadModelsTable.js')

@@ -1,4 +1,4 @@
-const makeReadModelRepository = require('../../destinations/destinations-read-model/make-readmodel-repository.js')
+const makeReadModelRepository = require('../../src/destinations/destinations-read-model/make-readmodel-repository.js')
 
 const chai = require('chai')
 const expect = chai.expect

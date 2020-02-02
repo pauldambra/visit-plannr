@@ -1,4 +1,4 @@
-const dynamoDbReader = require('../../destinations/dynamoDbReader.js')
+const dynamoDbReader = require('../../src/destinations/dynamoDbReader.js')
 const expect = require('chai').expect
 
 const dynamoDbEvent = require('../exampleDynamoDbEvent')()

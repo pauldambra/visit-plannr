@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 
-const generate = require('../../destinations/homepage/htmlGenerator')
+const generate = require('../../src/destinations/homepage/htmlGenerator')
 
 const expectedHtml = `
 <!DOCTYPE html>

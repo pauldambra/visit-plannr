@@ -1,4 +1,4 @@
-const timestamps = require('../destinations/timestamps.js')
+const timestamps = require('../src/destinations/timestamps.js')
 const chai = require('chai')
 const expect = chai.expect
 

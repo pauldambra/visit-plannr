@@ -1,9 +1,9 @@
 const chai = require('chai')
 const expect = chai.expect
 
-const destinationProposedEvent = require('../../destinations/propose-destination/destinationProposed.event.js')
-const geolocationValidationEvent = require('../../destinations/location-validation/geolocationValidation.event.js')
-const destinationReadModel = require('../../destinations/destinations-read-model/destinationReadModel.js')
+const destinationProposedEvent = require('../../src/destinations/propose-destination/destinationProposed.event.js')
+const geolocationValidationEvent = require('../../src/destinations/location-validation/geolocationValidation.event.js')
+const destinationReadModel = require('../../src/destinations/destinations-read-model/destinationReadModel.js')
 
 describe('the destination read model', function () {
   it('has basic properties even without events applied', function () {

@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-const handler = require('../../destinations/homepage/handler.js')
+const handler = require('../../src/destinations/homepage/handler.js')
 
 describe('home page generation handler', function () {
   let queryParams = {}

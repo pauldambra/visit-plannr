@@ -1,5 +1,5 @@
 
-const dynamoDb = require('../destinations/dynamoDbClient.js')
+const dynamoDb = require('../src/destinations/dynamoDbClient.js')
 
 const paramsFor = tableName => ({
   AttributeDefinitions: [

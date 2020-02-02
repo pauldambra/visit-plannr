@@ -1,4 +1,4 @@
-const makeStreamRepository = require('../../destinations/make-stream-repository.js')
+const makeStreamRepository = require('../../src/destinations/make-stream-repository.js')
 const chai = require('chai')
 const expect = chai.expect
 

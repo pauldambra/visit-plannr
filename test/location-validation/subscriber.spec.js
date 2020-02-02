@@ -3,9 +3,9 @@ const dirtyChai = require('dirty-chai')
 chai.use(dirtyChai)
 const expect = chai.expect
 
-const geolocationValidator = require('../../destinations/location-validation/geolocation-validator')
-const geolocationEventWriter = require('../../destinations/location-validation/geolocation-validation-event-writer')
-const makeEventSubscriber = require('../../destinations/location-validation/event-subscriber')
+const geolocationValidator = require('../../src/destinations/location-validation/geolocation-validator')
+const geolocationEventWriter = require('../../src/destinations/location-validation/geolocation-validation-event-writer')
+const makeEventSubscriber = require('../../src/destinations/location-validation/event-subscriber')
 
 const severalFakeEvents = () => {
   const fakeEvent = {

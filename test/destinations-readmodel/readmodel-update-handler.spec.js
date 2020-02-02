@@ -1,9 +1,9 @@
 const chai = require('chai')
 const expect = chai.expect
 
-const readModelUpdateHandler = require('../../destinations/destinations-read-model/readModelUpdateHandler.js')
-const makeStreamRepository = require('../../destinations/make-stream-repository.js')
-const makeReadModelRepository = require('../../destinations/destinations-read-model/make-readmodel-repository.js')
+const readModelUpdateHandler = require('../../src/destinations/destinations-read-model/readModelUpdateHandler.js')
+const makeStreamRepository = require('../../src/destinations/make-stream-repository.js')
+const makeReadModelRepository = require('../../src/destinations/destinations-read-model/make-readmodel-repository.js')
 
 let queryCounter = 0
 

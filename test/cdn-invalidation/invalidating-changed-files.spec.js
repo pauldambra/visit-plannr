@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-const handler = require('../../destinations/cloudfront/handler.js')
+const handler = require('../../src/destinations/cloudfront/handler.js')
 const eventFor = require('./s3-event.js')
 
 describe('the cdn invalidator', function () {

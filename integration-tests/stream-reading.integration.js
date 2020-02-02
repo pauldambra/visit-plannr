@@ -1,16 +1,16 @@
 const expect = require('chai').expect
 
-const destinationProposedEvent = require('../destinations/propose-destination/destinationProposed.event.js')
-const geolocationValidationEvent = require('../destinations/location-validation/geolocationValidation.event.js')
+const destinationProposedEvent = require('../src/destinations/propose-destination/destinationProposed.event.js')
+const geolocationValidationEvent = require('../src/destinations/location-validation/geolocationValidation.event.js')
 
 const now = (new Date()).toISOString().replace(/:/g, '-')
 const tableName = `theTable-${now}`
 const streamName = `theStream-${now}`
 const differentStream = `theOtherStream-${now}`
 
-const guid = require('../GUID.js')
-const dynamoDbClient = require('../destinations/dynamoDbClient').documentClient('http://0.0.0.0:8000')
-const makeStreamRepository = require('../destinations/make-stream-repository.js')
+const guid = require('../src/GUID.js')
+const dynamoDbClient = require('../src/destinations/dynamoDbClient').documentClient('http://0.0.0.0:8000')
+const makeStreamRepository = require('../src/destinations/make-stream-repository.js')
 
 const streamRepo = makeStreamRepository.for(tableName, dynamoDbClient, guid)
 

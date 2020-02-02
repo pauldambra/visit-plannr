@@ -1,6 +1,6 @@
-const commandHandler = require('../../destinations/propose-destination/commandHandler')
-const NoGeoLocationProvided = require('../../destinations/propose-destination/NoGeoLocationProvided')
-const NoNameProvided = require('../../destinations/propose-destination/NoNameProvided')
+const commandHandler = require('../../src/destinations/propose-destination/commandHandler')
+const NoGeoLocationProvided = require('../../src/destinations/propose-destination/NoGeoLocationProvided')
+const NoNameProvided = require('../../src/destinations/propose-destination/NoNameProvided')
 
 const chai = require('chai')
 const expect = chai.expect

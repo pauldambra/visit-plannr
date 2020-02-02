@@ -1,6 +1,6 @@
 const chai = require('chai')
 const expect = chai.expect
-const mapCommand = require('../../destinations/propose-destination/mapCommand')
+const mapCommand = require('../../src/destinations/propose-destination/mapCommand')
 
 const exampleEvent = {
   httpMethod: 'POST',

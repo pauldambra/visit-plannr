@@ -1,4 +1,4 @@
-const makeStreamRepository = require('../../destinations/make-stream-repository')
+const makeStreamRepository = require('../../src/destinations/make-stream-repository')
 const chai = require('chai')
 const expect = chai.expect
 chai.use(require('../chai-event-timestamp.js'))

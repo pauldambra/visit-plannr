@@ -1,6 +1,6 @@
-const geolocationValidator = require('../../destinations/location-validation/geolocation-validator')
+const geolocationValidator = require('../../src/destinations/location-validation/geolocation-validator')
 const expect = require('chai').expect
-const InvalidGeoLocationProvided = require('../../destinations/location-validation/InvalidGeolocationProvided')
+const InvalidGeoLocationProvided = require('../../src/destinations/location-validation/InvalidGeolocationProvided')
 
 describe('validating geolocations', function () {
   it('returns valid co-ordinates', async function () {
