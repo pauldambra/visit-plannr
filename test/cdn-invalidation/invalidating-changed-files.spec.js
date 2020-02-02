@@ -20,7 +20,7 @@ describe('the cdn invalidator', function () {
         }
       })
       .withDistribution('123456')
-      .withTimestampSource({stringify: () => 'thetimestamp'})
+      .withTimestampSource({ stringify: () => 'thetimestamp' })
       .invalidate(indexChangedEvent)
 
     expect(invalidationParams.DistributionId).to.eql('123456')
@@ -31,8 +31,8 @@ describe('the cdn invalidator', function () {
 
   it('invalidates multiple changed files', async function () {
     const changedFiles = eventFor([
-      {file: 'index.html', etag: 'anarbitraryetag'},
-      {file: 'another.html', etag: 'anotheretag'}
+      { file: 'index.html', etag: 'anarbitraryetag' },
+      { file: 'another.html', etag: 'anotheretag' }
     ])
 
     let invalidationParams
@@ -46,7 +46,7 @@ describe('the cdn invalidator', function () {
         }
       })
       .withDistribution('123456')
-      .withTimestampSource({stringify: () => 'thetimestamp'})
+      .withTimestampSource({ stringify: () => 'thetimestamp' })
       .invalidate(changedFiles)
 
     expect(invalidationParams.DistributionId).to.eql('123456')

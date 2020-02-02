@@ -15,13 +15,13 @@ describe('the destination read model', function () {
 
   it('can apply a destination proposed event', function () {
     const stream = [
-      destinationProposedEvent('foo', {x: 0, y: 100})
+      destinationProposedEvent('foo', { x: 0, y: 100 })
     ]
     const readModel = destinationReadModel.apply(stream)
 
     expect(readModel.status).to.eql('pending')
     expect(readModel.name).to.eql('foo')
-    expect(readModel.geolocation).to.eql({x: 0, y: 100})
+    expect(readModel.geolocation).to.eql({ x: 0, y: 100 })
   })
 
   it('can apply a valid geolocation event', function () {
@@ -44,13 +44,13 @@ describe('the destination read model', function () {
 
   it('can apply an entire stream', function () {
     const stream = [
-      destinationProposedEvent('foo', {x: 0, y: 100}),
+      destinationProposedEvent('foo', { x: 0, y: 100 }),
       geolocationValidationEvent.success().event
     ]
     const readModel = destinationReadModel.apply(stream)
 
     expect(readModel.status).to.eql('locationValidated')
     expect(readModel.name).to.eql('foo')
-    expect(readModel.geolocation).to.eql({x: 0, y: 100})
+    expect(readModel.geolocation).to.eql({ x: 0, y: 100 })
   })
 })

@@ -1,5 +1,5 @@
 
-const AWSXRay = require('aws-xray-sdk');
+const AWSXRay = require('aws-xray-sdk')
 const AWS = AWSXRay.captureAWS(require('aws-sdk'))
 const awsRegion = process.env.AWS_REGION || 'eu-west-2'
 

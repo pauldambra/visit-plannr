@@ -21,7 +21,7 @@ describe('the stream repository', function () {
       writeToTheStream = streamRepo.writeToStream(
         {
           streamName: 'arbitrary-string',
-          event: {winnie: 'pooh'}
+          event: { winnie: 'pooh' }
         }
       )
     })
@@ -79,7 +79,7 @@ describe('the stream repository', function () {
     it('are added before writing', async function () {
       const writtenItem = await streamRepo.writeToStream({
         streamName: 'arbitrary-string',
-        event: {winnie: 'pooh'}
+        event: { winnie: 'pooh' }
       })
       expect(writtenItem.Item.timestamp).to.be.withinOneSecondOfNow()
       expect(writtenItem.Item.event.timestamp).to.be.withinOneSecondOfNow()

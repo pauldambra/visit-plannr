@@ -11,7 +11,7 @@ module.exports = {
 
           const readPromises = streamNames
             .from(event.Records)
-            .map(cs => streamReader.readStream({streamName: cs}))
+            .map(cs => streamReader.readStream({ streamName: cs }))
 
           const streamsOfEvents = await Promise.all(readPromises)
 

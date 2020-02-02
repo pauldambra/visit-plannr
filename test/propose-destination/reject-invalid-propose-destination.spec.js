@@ -18,7 +18,7 @@ describe('when proposing a destination', function () {
     let caughtError = null
     await commandHandler
       .apply({
-        command: {name: 'the destination name'},
+        command: { name: 'the destination name' },
         streamRepository: persistenceMechanism
       })
       .catch(err => (caughtError = err))
@@ -36,7 +36,7 @@ describe('when proposing a destination', function () {
     let caughtError = null
     await commandHandler
       .apply({
-        command: {geolocation: {}},
+        command: { geolocation: {} },
         streamRepository: persistenceMechanism
       })
       .catch(err => (caughtError = err))

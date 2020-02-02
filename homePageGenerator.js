@@ -1,7 +1,7 @@
-const AWSXRay = require('aws-xray-sdk');
+const AWSXRay = require('aws-xray-sdk')
 const AWS = AWSXRay.captureAWS(require('aws-sdk'))
 const region = process.env.AWS_REGION || 'eu-west-2'
-const s3 = new AWS.S3({region})
+const s3 = new AWS.S3({ region })
 
 let documentClient
 const dynamoDbClient = require('./destinations/dynamoDbClient')

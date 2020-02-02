@@ -20,7 +20,7 @@ describe('when proposing a destination', function () {
         {
           command: {
             name: 'the destination name',
-            geolocation: {something: 'provided'}
+            geolocation: { something: 'provided' }
           },
           streamName: 'the stream name',
           streamRepository: fakeStreamRepo
@@ -30,7 +30,7 @@ describe('when proposing a destination', function () {
     expect(event).to.deep.equal({
       type: 'destinationProposed',
       name: 'the destination name',
-      geolocation: {something: 'provided'}
+      geolocation: { something: 'provided' }
     })
     expect(streamName).to.include('the stream name')
   })

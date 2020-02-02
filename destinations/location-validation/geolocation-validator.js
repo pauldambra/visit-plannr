@@ -19,7 +19,7 @@ module.exports = {
     console.log(Object.keys(dynamoDbEvent.event.geolocation).length)
     console.log(Object.keys(dynamoDbEvent.event.geolocation).length >= 2)
     const coordinateValidation = {
-      hasGeolocation: dynamoDbEvent.event.hasOwnProperty('geolocation'),
+      hasGeolocation: !!dynamoDbEvent.event.geolocation,
       geolocationIsObject: typeof dynamoDbEvent.event.geolocation === 'object',
       geolocationHasTwoKeys: Object.keys(dynamoDbEvent.event.geolocation).length >= 2,
       latitudeIsNumeric: isNumeric(strictlyParseFloat(dynamoDbEvent.event.geolocation.latitude)),

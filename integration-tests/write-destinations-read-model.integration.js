@@ -15,7 +15,7 @@ const readModelRepo = makeReadModelRepository.for(tableName, dynamoDbClient, gui
 const dynamoReadModelsTable = require('./dynamoReadModelsTable.js')
 
 const readModelWithEventTimestamp = timestamp => {
-  const destinationProposed = destinationProposedEvent('foo', {x: 0, y: 100})
+  const destinationProposed = destinationProposedEvent('foo', { x: 0, y: 100 })
   destinationProposed.timestamp = timestamp
   const stream = [
     destinationProposed,

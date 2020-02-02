@@ -47,19 +47,19 @@ const lessThanFiveHTML = `
 
 describe('adding recent destinations to the home page', function () {
   it('generates expected html when there are exactly 5', async function () {
-    const one = {name: 'one'}
-    const two = {name: 'two'}
-    const three = {name: 'three'}
-    const four = {name: 'four'}
-    const five = {name: 'five'}
+    const one = { name: 'one' }
+    const two = { name: 'two' }
+    const three = { name: 'three' }
+    const four = { name: 'four' }
+    const five = { name: 'five' }
 
     const html = await generate.homepage([one, two, three, four, five])
     expect(html).to.eql(expectedHtml)
   })
 
   it('removes unmatched templates when there are less than 5', async function () {
-    const one = {name: 'one'}
-    const two = {name: 'two'}
+    const one = { name: 'one' }
+    const two = { name: 'two' }
 
     const html = await generate.homepage([one, two])
     expect(html).to.eql(lessThanFiveHTML)

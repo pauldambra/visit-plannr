@@ -44,7 +44,7 @@ describe('the destination read model writer repository', function () {
     it('are added from the terminal event', async function () {
       const writtenItem = await readModelWriter.write({
         streamName: 'arbitrary-string',
-        event: {winnie: 'pooh'},
+        event: { winnie: 'pooh' },
         timestamp: 'a time stamp'
       })
       expect(writtenItem.Item.timestamp).to.eql('a time stamp')

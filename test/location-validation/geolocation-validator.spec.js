@@ -6,7 +6,7 @@ describe('validating geolocations', function () {
   it('returns valid co-ordinates', async function () {
     const candidate = {
       event: {
-        geolocation: {latitude: 0, longitude: 1}
+        geolocation: { latitude: 0, longitude: 1 }
       }
     }
 
@@ -17,7 +17,7 @@ describe('validating geolocations', function () {
   it('(because dynamodb seems to necessitate it) can parse string values from valid co-ordinates', async function () {
     const candidate = {
       event: {
-        geolocation: {latitude: '0.12', longitude: '1.23'}
+        geolocation: { latitude: '0.12', longitude: '1.23' }
       }
     }
 

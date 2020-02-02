@@ -24,7 +24,7 @@ describe('reading from the stream repository', function () {
   const streamRepo = makeStreamRepository.for('anArbitraryTable', fakeDynamoDbClient, fakeGuidGenerator)
 
   it('can read all of the events from a stream.', async function () {
-    const events = await streamRepo.readStream({streamName: 'a-stream-guid'})
+    const events = await streamRepo.readStream({ streamName: 'a-stream-guid' })
     expect(events.length).to.eql(3)
   })
 })

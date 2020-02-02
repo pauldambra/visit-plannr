@@ -17,7 +17,7 @@ const streamRepo = makeStreamRepository.for(tableName, dynamoDbClient, guid)
 const eventStreamTable = require('./dynamoEventStreamTable.js')
 
 const addEventsToStream = async (stream, destination, eventTime) => {
-  const destinationProposed = destinationProposedEvent(destination, {x: 0, y: 100})
+  const destinationProposed = destinationProposedEvent(destination, { x: 0, y: 100 })
   destinationProposed.timestamp = eventTime
 
   const firstWrite = await streamRepo.writeToStream({

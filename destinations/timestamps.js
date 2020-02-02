@@ -7,7 +7,7 @@ const stringify = d => {
 const decorate = (toDecorate, date) => {
   const timestamp = stringify(date)
 
-  let copy = JSON.parse(JSON.stringify(toDecorate))
+  const copy = JSON.parse(JSON.stringify(toDecorate))
   copy.timestamp = timestamp
 
   if (copy.event) {

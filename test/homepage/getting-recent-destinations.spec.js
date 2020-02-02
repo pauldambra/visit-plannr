@@ -6,14 +6,16 @@ describe('home page generation handler', function () {
   let uploadParams = {}
 
   beforeEach(async function () {
-    const fakeDocumentClient = {query: (params) => {
-      queryParams = params
-      return {
-        promise: () => Promise.resolve(
-          {Items: [{name: '1'}, {name: '2'}, {name: 3}, {name: '4'}, {name: '5'}]}
-        )
+    const fakeDocumentClient = {
+      query: (params) => {
+        queryParams = params
+        return {
+          promise: () => Promise.resolve(
+            { Items: [{ name: '1' }, { name: '2' }, { name: 3 }, { name: '4' }, { name: '5' }] }
+          )
+        }
       }
-    }}
+    }
 
     const fakeS3 = {
       upload: (params) => {

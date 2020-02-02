@@ -15,7 +15,7 @@ describe('the http responses', function () {
     let responseSent
 
     httpResponse.invalid(
-      {message: 'the error message'},
+      { message: 'the error message' },
       'only used to log',
       (_, response) => { responseSent = response })
 

@@ -19,15 +19,19 @@ describe('the read model update handler', function () {
               return Promise.resolve({
                 Count: 1,
                 Items: queryCounter === 1
-                  ? [{ event: {name: 'potat', type: 'destinationProposed'} }]
+                  ? [{ event: { name: 'potat', type: 'destinationProposed' } }]
                   : [
-                    { event: {
-                      name: 'floppity',
-                      type: 'destinationProposed'
-                    }},
-                    { event: {
-                      type: 'geolocationValidationSucceeded'
-                    }}
+                    {
+                      event: {
+                        name: 'floppity',
+                        type: 'destinationProposed'
+                      }
+                    },
+                    {
+                      event: {
+                        type: 'geolocationValidationSucceeded'
+                      }
+                    }
                   ]
               })
             }
@@ -49,9 +53,9 @@ describe('the read model update handler', function () {
           eventName: 'INSERT',
           dynamodb: {
             NewImage: {
-              EventId: {S: 'arbitrary'},
-              event: {M: {}},
-              StreamName: {S: 'potat'}
+              EventId: { S: 'arbitrary' },
+              event: { M: {} },
+              StreamName: { S: 'potat' }
             }
           }
         },
@@ -59,9 +63,9 @@ describe('the read model update handler', function () {
           eventName: 'INSERT',
           dynamodb: {
             NewImage: {
-              EventId: {S: 'a second dynamo insert'},
-              event: {M: {}},
-              StreamName: {S: 'floppity'}
+              EventId: { S: 'a second dynamo insert' },
+              event: { M: {} },
+              StreamName: { S: 'floppity' }
             }
           }
         }

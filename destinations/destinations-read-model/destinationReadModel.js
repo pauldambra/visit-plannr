@@ -17,7 +17,7 @@ module.exports = {
       }
 
       return model
-    }, {status: 'pending', type: 'destination'})
+    }, { status: 'pending', type: 'destination' })
 
     console.log(`built readmodel ${JSON.stringify(readModel)} from events ${JSON.stringify(events)}`)
     return readModel

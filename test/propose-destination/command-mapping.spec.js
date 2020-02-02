@@ -30,9 +30,9 @@ describe('the command mapper', function () {
     expect(command).to.deep.equal({
       name: 'destination',
       geolocation: {
-        'type': 'coordinate',
-        'lat': 0.0,
-        'long': 0.0
+        type: 'coordinate',
+        lat: 0.0,
+        long: 0.0
       },
       type: 'a command type'
     })
