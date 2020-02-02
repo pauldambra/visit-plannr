@@ -1,5 +1,3 @@
-org: pauldambra
-app: visit-plannr
 service: visit-plannr
 
 custom:
