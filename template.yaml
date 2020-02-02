@@ -71,7 +71,7 @@ Resources:
   CloudfrontInvalidatingFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Handler: invalidateStaticFiles.handler
       Timeout: 60
       Tracing: Active
@@ -151,7 +151,7 @@ Resources:
   ProposeDestinationFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Handler: proposeDestination.handler
       Timeout: 10
       Tracing: Active
@@ -182,7 +182,7 @@ Resources:
   ValidateGeolocationFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Handler: validateGeolocation.handler
       Timeout: 10
       Tracing: Active
@@ -214,7 +214,7 @@ Resources:
   UpdateDestinationReadModelFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Handler: updateDestinationReadModel.handler
       Timeout: 10
       Tracing: Active
@@ -259,7 +259,7 @@ Resources:
   HomePageGeneratorFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Handler: homePageGenerator.handler
       Timeout: 10
       Tracing: Active
