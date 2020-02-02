@@ -4,7 +4,7 @@ set -eux
 
 rm -rf node_modules/
 
-npm install --only=production
+npm ci --only=production
 
 if aws s3 ls "s3://visitplannr" 2>&1 | grep -q 'NoSuchBucket'
 then
