@@ -2,6 +2,12 @@
 
 set -eux
 
+function installAWScli() {
+  curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  ./aws/install
+}
+
 function installAwsSam(){
 	echo "Install aws-sam-cli ${INPUT_SAM_VERSION}"
 	if [ "${INPUT_SAM_VERSION}" == "latest" ]; then
@@ -25,8 +31,8 @@ rm -rf node_modules/
 
 npm ci --only=production
 
-
 installAwsSam()
+installAWScli()
 
 if aws s3 ls "s3://visitplannr" 2>&1 | grep -q 'NoSuchBucket'
 then
