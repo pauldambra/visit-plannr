@@ -22,7 +22,7 @@
     "chai": "^4.1.2",
     "coveralls": "^3.0.1",
     "dirty-chai": "^2.0.1",
-    "mocha": "^7.0.1",
+    "mocha": "^10.2.0",
     "nyc": "^15.0.0",
     "serverless": "^1.62.0",
     "standard": "^14.3.1",
